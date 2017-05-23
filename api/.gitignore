@@ -1,0 +1,9 @@
+#################
+## Eclipse
+#################
+
+.project
+.metadata
+target/
+.classpath
+.settings/
