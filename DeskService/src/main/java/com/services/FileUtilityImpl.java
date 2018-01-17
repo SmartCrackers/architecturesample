@@ -24,7 +24,7 @@ public class FileUtilityImpl implements FileUtility {
 	@Override
 	public  void saveFile(MultipartFile multiPartFile, String clientId, String folder, String fileName) {
 
-	    if (ObjectUtils.isEmpty(multiPartFile) || multiPartFile.isEmpty()) {
+	    if (multiPartFile.isEmpty()) {
 	      return;
 	    }
 	    String assetLocation = String.format(locationFormat, mediaLocation, clientId);
