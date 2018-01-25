@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "users")
 public class UserController {
 
-	@RequestMapping(value = { "/template" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "template" }, method = RequestMethod.GET)
 	public ModelAndView form() throws IOException {
 
 		Map<String, Object> data = new HashMap<String, Object>();
@@ -24,7 +24,7 @@ public class UserController {
 		return new ModelAndView("user/newuser", "data", data);
 	}
 
-	@RequestMapping(value = { "/app" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "app" }, method = RequestMethod.GET)
 	public ModelAndView userApp() throws IOException {
 
 		Map<String, Object> data = new HashMap<String, Object>();
@@ -32,7 +32,7 @@ public class UserController {
 		return new ModelAndView("app/user", "data", data);
 	}
 
-	@RequestMapping(value = { "/twitter" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "twitter" }, method = RequestMethod.GET)
 	public ModelAndView formTwitter() throws IOException {
 
 		Map<String, Object> data = new HashMap<String, Object>();

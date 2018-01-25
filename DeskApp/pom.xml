@@ -10,18 +10,36 @@
   
   <properties>
 		<jdk.version>1.8</jdk.version>
-		<spring.version>4.2.4.RELEASE</spring.version>
+		<spring.version>4.0.2.RELEASE</spring.version>
 		<jstl.version>1.2</jstl.version>
 		<servletapi.version>3.1.0</servletapi.version>
 		<joda-time.version>2.3</joda-time.version>
 </properties>
   <dependencies>
+    
+    <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
+	<dependency>
+	    <groupId>org.springframework.security</groupId>
+	    <artifactId>spring-security-config</artifactId>
+	    <version>5.0.0.RELEASE</version>
+	</dependency>
+
+
+	<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
+	<dependency>
+	    <groupId>org.springframework.security</groupId>
+	    <artifactId>spring-security-web</artifactId>
+	    <version>5.0.0.RELEASE</version>
+	</dependency>
+		
+	    
+    
      <!-- https://mvnrepository.com/artifact/org.springframework/spring-aspects -->
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-aspects</artifactId>
-    <version>3.2.0.RELEASE</version>
-</dependency>
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-aspects</artifactId>
+	    <version>3.2.0.RELEASE</version>
+	</dependency>
 
     <dependency>
       <groupId>junit</groupId>

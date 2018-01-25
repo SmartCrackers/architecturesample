@@ -14,24 +14,12 @@ import org.springframework.web.servlet.ModelAndView;
  *
  */
 @Controller
-@RequestMapping(value = "app")
+@RequestMapping(value = "admin")
 public class AdminController {
 
-	@RequestMapping(value = { "/welcome" }, method = RequestMethod.GET)
-	public ModelAndView welcome() throws IOException {
+	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
+	public ModelAndView index() throws IOException {
 		Map<String, Object> data = new HashMap<String, Object>();
-		return new ModelAndView("app/welcome", "data", data);
-	}
-	
-	@RequestMapping(value = { "/header" }, method = RequestMethod.GET)
-	public ModelAndView header() throws IOException {
-
-		return new ModelAndView("common/_header");
-	}
-	
-	@RequestMapping(value = { "/product-list" }, method = RequestMethod.GET)
-	public ModelAndView productListOnWelcome() throws IOException {
-
-		return new ModelAndView("product/list");
+		return new ModelAndView("app/index", "data", data);
 	}
 }
