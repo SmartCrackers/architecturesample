@@ -1,5 +1,10 @@
 package com.servlet3;
 
+import javax.servlet.Filter;
+import javax.servlet.ServletRegistration;
+
+import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import com.config.SpringWebConfig;
@@ -26,7 +31,7 @@ public class MyWebInitializer extends
 		return new Class<?>[] {ApplicationConfig.class};
 	}
 	
-	/*@Override
+	@Override
     protected Filter[] getServletFilters() {
         CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
         characterEncodingFilter.setEncoding("UTF-8");
@@ -42,6 +47,6 @@ public class MyWebInitializer extends
         registration.setInitParameter("defaultHtmlEscape", "true");
         registration.setInitParameter("spring.profiles.active", "default");
         registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
-    }*/
+    }
 
 }

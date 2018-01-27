@@ -17,6 +17,8 @@
 </properties>
   <dependencies>
     
+    
+    
     <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
 	<dependency>
 	    <groupId>org.springframework.security</groupId>

@@ -22,4 +22,10 @@ public class AdminController {
 		Map<String, Object> data = new HashMap<String, Object>();
 		return new ModelAndView("app/index", "data", data);
 	}
+	
+	@RequestMapping(value = { "/login" }, method = RequestMethod.GET)
+	public ModelAndView login() throws IOException {
+		Map<String, Object> data = new HashMap<String, Object>();
+		return new ModelAndView("signin", "data", data);
+	}
 }

@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
@@ -28,11 +29,11 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
  * @author RITESH SINGH
  *
  */
-@EnableWebMvc
+//@EnableWebMvc
 @Configuration
 @ComponentScan({ "com.controllers" })
 @PropertySources({ @PropertySource("classpath:config.properties"), @PropertySource("classpath:api.properties") })
-public class SpringWebConfig extends WebMvcConfigurerAdapter {
+public class SpringWebConfig extends WebMvcConfigurationSupport{
 /*public class SpringWebConfig implements WebMvcConfigurer  {*/
 
 	private static String VIEWS = "/WEB-INF/views/";
@@ -44,7 +45,7 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/").setViewName("home");
+		registry.addViewController("/admin/").setViewName("index");
 	}
 
 	/*
