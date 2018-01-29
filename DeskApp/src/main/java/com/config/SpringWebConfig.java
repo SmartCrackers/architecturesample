@@ -3,19 +3,15 @@ package com.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.security.access.SecurityConfig;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
@@ -29,12 +25,11 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
  * @author RITESH SINGH
  *
  */
-//@EnableWebMvc
+@EnableWebMvc
 @Configuration
 @ComponentScan({ "com.controllers" })
 @PropertySources({ @PropertySource("classpath:config.properties"), @PropertySource("classpath:api.properties") })
-public class SpringWebConfig extends WebMvcConfigurationSupport{
-/*public class SpringWebConfig implements WebMvcConfigurer  {*/
+public class SpringWebConfig extends WebMvcConfigurerAdapter {
 
 	private static String VIEWS = "/WEB-INF/views/";
 
@@ -45,7 +40,7 @@ public class SpringWebConfig extends WebMvcConfigurationSupport{
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/admin/").setViewName("index");
+		registry.addViewController("/").setViewName("admin/login");
 	}
 
 	/*

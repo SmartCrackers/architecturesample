@@ -1,12 +1,11 @@
 package com.servlet3;
 
 import javax.servlet.Filter;
-import javax.servlet.ServletRegistration;
 
-import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import com.config.BaseFilter;
+import com.config.RedisConfig;
 import com.config.SpringWebConfig;
 
 /**
@@ -18,7 +17,7 @@ public class MyWebInitializer extends
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		return new Class<?>[] {SpringWebConfig.class};
+		return new Class[] { SpringWebConfig.class, RedisConfig.class };
 	}
 
 	@Override
@@ -32,21 +31,7 @@ public class MyWebInitializer extends
 	}
 	
 	@Override
-    protected Filter[] getServletFilters() {
-        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
-        characterEncodingFilter.setEncoding("UTF-8");
-        characterEncodingFilter.setForceEncoding(true);
-
-        DelegatingFilterProxy securityFilterChain = new DelegatingFilterProxy("springSecurityFilterChain");
-
-        return new Filter[] {characterEncodingFilter, securityFilterChain};
-    }
-
-    @Override
-    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
-        registration.setInitParameter("defaultHtmlEscape", "true");
-        registration.setInitParameter("spring.profiles.active", "default");
-        registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
-    }
-
+	protected Filter[] getServletFilters() {
+		return new Filter[]{new BaseFilter()};
+	}
 }
