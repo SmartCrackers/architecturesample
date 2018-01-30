@@ -1,57 +1,18 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="head">
-<meta charset="utf-8" />
-<meta http-equiv="x-ua-compatible" content="ie=edge" />
+<div th:fragment="head">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
 <title>DeskApp</title>
 <meta name="description" content="" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, minimum-scale=1.0" />
 <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 
-<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
-<link href="../../../resources/css/app.css" rel="stylesheet" media="screen" th:href="@{/resources/css/custom.css}" />
-<link href="../../../resources/css/app-purple.css" rel="stylesheet" media="screen" th:href="@{/resources/css/app-purple.css}" />
-<link href="../../../resources/css/socioseer.css" rel="stylesheet" media="screen" th:href="@{/resources/css/desk.css}" />
-<link href="../../../resources/css/responsive.css" rel="stylesheet" media="screen" th:href="@{/resources/css/responsive.css}" />
-<link href="../../../resources/css/animate.css" rel="stylesheet" media="screen" th:href="@{/resources/css/animate.css}" />
-<link href="../../../resources/fonts/flaticon.css" rel="stylesheet" media="screen" th:href="@{/resources/fonts/flaticon.css}" />
-<link href="../../../resources/css/font-awesome.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/font-awesome.min.css}" />
-<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet">
-<link href="../../../resources/css/bootstrap-select.css" th:href="@{/resources/css/bootstrap-select.css}" rel="stylesheet">
-<link href="../../../resources/css/bootstrap-multiselect.css" th:href="@{/resources/css/bootstrap-multiselect.css}" rel="stylesheet">
-<link href="../../../resources/css/jquery-datatable.min.css" th:href="@{/resources/css/jquery-datatable.min.css}" rel="stylesheet">
-<link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.min.css" rel="stylesheet">
-<link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
-<link href="../../../resources/css/pace.css" th:href="@{/resources/css/pace.css}" rel="stylesheet">
-
-<script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
-<script type="text/javascript" th:src="@{/resources/js/script.js}"></script>
-
-<script>
-	var isIE = /*@cc_on!@*/false || !!document.documentMode;
-		if(isIE) {		   
-		    $('head').append('<link rel="stylesheet" type="text/css" href="/vedanta-web/resources/css/deskIE.css">');	
-		}
-</script>
+<!-- Bootstrap core CSS -->
+<link href="../../../resources/mdlv130/material.blue-light_blue.min.css" rel="stylesheet" media="screen" th:href="@{/resources/mdlv130/material.blue-light_blue.min.css}" />
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap4.min.css}" />
 
 
-<script type="text/javascript" th:src="@{/resources/js/bootstrap.min.js}"></script>
-<script type="text/javascript" th:src="@{/resources/js/pace.min.js}"></script>
-<script type="text/javascript" th:src="@{/resources/js/jquery.metisMenu.js}"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
-<!-- <script type="text/javascript" th:src="@{/resources/js/bootstrap-select.js}"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
-
-<script type="text/javascript" th:src="@{/resources/js/notify.min.js}"></script>
-
-<script type="text/javascript" th:src="@{/resources/js/custom.js}"></script>
-   
-</head>
-<body>
-	<div class="col-sm-12" role="header-column">
-	</div>
-</body>
- 
-</html>
+<script type="text/javascript" th:src="@{/resources/js/jquery-3.2.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/resources/mdlv130/material.min.js}"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<script type="text/javascript" th:src="@{/resources/js/bootstarp4.min.js}"></script>
+</div>

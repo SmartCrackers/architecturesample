@@ -19,6 +19,6 @@ public class IgnoreAuthUrls {
 										"/"+GET,
 										"/user/test"+GET,
 										"/user/"+POST,
-										"/auth/login"+POST
+										"/auth/login"+GET
 										).collect(Collectors.toList());
 }

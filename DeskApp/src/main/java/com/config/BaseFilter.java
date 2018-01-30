@@ -67,18 +67,17 @@ public class BaseFilter implements Filter {
 		}
 
 		try {
-			
 			if (!isIgnoreUrlForAuth(request)) {
-				if(true){
+				if(false){
 					request.setAttribute("errorMessage", "");
 					request.getRequestDispatcher("/user/test")
 		                               .forward(request, response);
 				}
 			}
 		} catch (Exception e) {
-			request.setAttribute("errorMessage", e);
+			/*request.setAttribute("errorMessage", e);
 			request.getRequestDispatcher("/user/test")
-                               .forward(request, response);
+                               .forward(request, response);*/
 		}
 		chain.doFilter(request, response);
 	}
@@ -90,56 +89,6 @@ public class BaseFilter implements Filter {
 	 */
 	public void destroy() {
 		System.out.println("Base-Filter Destroy.");
-	}
-
-	/**
-	 * This method used when exception occurs in doFilter
-	 * 
-	 * @param e
-	 * @param servletResponse
-	 * @throws IOException
-	 */
-	private void writeErrorToResponse(Exception e, ServletResponse servletResponse) throws IOException {
-		Response response = new Response();
-		response.setStatus(500);
-		response.setStatusDescription(e.getMessage());
-		try (PrintWriter writer = servletResponse.getWriter()) {
-			writer.write(new Gson().toJson(response));
-			writer.flush();
-		}
-
-	}
-
-	/**
-	 * If token expired then this method will generate response
-	 * 
-	 * @param servletResponse
-	 * @throws IOException
-	 */
-	private void writeBadTokenToResponse(ServletResponse servletResponse) throws IOException {
-		Response response = new Response();
-		response.setStatus(302);
-		response.setStatusDescription("Token has not been existed.");
-		try (PrintWriter writer = servletResponse.getWriter()) {
-			writer.write(new Gson().toJson(response));
-			writer.flush();
-		}
-	}
-	
-	/**
-	 * If token expired then this method will generate response
-	 * 
-	 * @param servletResponse
-	 * @throws IOException
-	 */
-	private void writeExpiredTokenToResponse(ServletResponse servletResponse) throws IOException {
-		Response response = new Response();
-		response.setStatus(302);
-		response.setStatusDescription("Token has been expired.");
-		try (PrintWriter writer = servletResponse.getWriter()) {
-			writer.write(new Gson().toJson(response));
-			writer.flush();
-		}
 	}
 
 	/**
@@ -165,7 +114,7 @@ public class BaseFilter implements Filter {
 				String requestedCompleteUrl = req.getRequestURL().toString();
 				int i = requestedCompleteUrl.indexOf(appName) + appName.length();
 				String requestedAppUrl = requestedCompleteUrl.substring(i);
-				System.out.println(requestedAppUrl+"method:"+req.getMethod());
+				/*System.out.println(requestedAppUrl+"method:"+req.getMethod());*/
 				return requestedAppUrl+"method:"+req.getMethod();
 			}
 
@@ -175,8 +124,11 @@ public class BaseFilter implements Filter {
 			protected boolean getIgnoreStatus() {
 				if (IgnoreAuthUrls.URLS.contains(getRequestedUrl()))
 					return true;
-				else
+				else{
+					if(getRequestedUrl().contains("resources"))
+						return true;
 					return false;
+				}
 			}
 		}
 		return new RequestUrl().getIgnoreStatus();

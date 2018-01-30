@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+
+<object th:include="fragments/header :: head" th:remove="tag" />
+
+<link rel="shortcut icon" type="image/icon"
+	th:href="@{/resources/images/favicon.ico}">
+</head>
+<body>
+	<div class="row login-box">
+		<div class="col-sm-8">
+			<div class="card text-center login-shadow">
+				<div class="card-header">
+					<div class="row">
+						<div class="col-sm-6 text-left">
+							Login
+						</div>
+						<div class="col-sm-6 text-right">
+							<small class="text-muted">
+							<a href="#">Forgot password?</a>
+							</small>
+						</div>
+					</div>
+				</div>
+				<div class="card-block">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="input-group">
+							    <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+							    <input id="email" type="text" class="form-control" name="email" placeholder="Email">
+						    </div>
+						</div>
+					</div>
+					<br />
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="input-group">
+							    <span class="input-group-addon"><i class="fa fa-key"></i></span>
+							    <input id="password" type="password" class="form-control" name="password" placeholder="Password">
+							  </div>
+						</div>
+					</div>
+					<br />
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="btn btn-success">Login</div>
+						</div>
+						<div class="col-sm-9 text-right">
+							<small class="text-muted signup-text">
+								<a href="#">Sign Up Here</a>
+							</small>
+						</div>
+					</div>
+				</div>
+				<div class="card-footer text-right">
+			      <small class="text-muted">copy right @orange mantra</small>
+			    </div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
