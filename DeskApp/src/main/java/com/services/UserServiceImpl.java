@@ -61,11 +61,11 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 			
 			header.put("token", "myToken");
 			
-			Response apiResponse = gson.fromJson(sendGET(url+userApi, header), Response.class);
+			Response<List<User>> apiResponse = gson.fromJson(sendGET(url+userApi, header), Response.class);
 			
 			System.out.println("apiResponse = "+new Gson().toJson(apiResponse));
 			
-			if(apiResponse.getStatus().equals("200")){
+			if(apiResponse.getStatus() == 200){
 				List<User> users = gson.fromJson(gson.toJson(apiResponse.getData()), List.class);
 				logger.info("fetched users successfully.");
 				return users;
@@ -87,10 +87,10 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 			Map<String, String> header = new HashMap<String, String>();
 			header.put("token", "myToken");
 			
-			Response apiResponse = gson.fromJson(sendGET(url+userApi+user.getUserName(),  header), Response.class); 
+			Response<User> apiResponse = gson.fromJson(sendGET(url+userApi+user.getUserName(),  header), Response.class); 
 			System.out.println("apiResponse = "+new Gson().toJson(apiResponse));
 			
-			if(apiResponse.getStatus().equals("200")){
+			if(apiResponse.getStatus() == 200){
 				user = gson.fromJson(gson.toJson(apiResponse.getData()), User.class);
 				logger.info("fetched user by userName successfully.");
 				return user;
@@ -132,10 +132,10 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 		try{
 			Map<String, String> header = new HashMap<String, String>();
 
-			Response apiResponse = gson.fromJson(sendPOST(url,gson.toJson(user),  header), Response.class); 
+			Response<User> apiResponse = gson.fromJson(sendPOST(url,gson.toJson(user),  header), Response.class); 
 			System.out.println("apiResponse = "+new Gson().toJson(apiResponse));
 			
-			if(apiResponse.getStatus() ==200){
+			if(apiResponse.getStatus() == 200){
 				user = mapper.readValue(gson.toJson(apiResponse.getData()), User.class);
 				logger.info("fetched user by userName successfully.");
 

@@ -30,6 +30,7 @@ import com.HelperUtility;
 import com.Response;
 import com.google.gson.Gson;
 import com.models.Book;
+import com.models.User;
 import com.services.BookService;
 
 /**
@@ -58,7 +59,7 @@ public class BookController {
 	 */
 	@CrossOrigin
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<Response> saveBook(
+	public @ResponseBody ResponseEntity<Response<Book>> saveBook(
 			@RequestParam(value = "bookString")  String bookString,
 			@RequestParam(value = "logo", required = false) MultipartFile logo,
 			@RequestParam(value = "image", required = false) MultipartFile image,
@@ -66,9 +67,9 @@ public class BookController {
 			HttpServletResponse response)throws UnknownHostException {
 
 		Book book = new Gson().fromJson(bookString, Book.class);
-		return new ResponseEntity<Response>(
-				new Response(200, "Book saved successfully.",bookService.save(book,logo,image)),
-				HttpStatus.OK);
+		
+		return new ResponseEntity<Response<Book>>(new Response<Book>(
+                HttpStatus.OK.value(), "Book saved successfully.",bookService.save(book,logo,image)), HttpStatus.OK);
 	}
 	
 	/**
@@ -85,7 +86,7 @@ public class BookController {
 	 */
 	@CrossOrigin
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<Response> updateBook(
+	public @ResponseBody ResponseEntity<Response<Book>> updateBook(
 			@RequestParam(value = "bookString")  String bookString,
 			@RequestParam(value = "coverImage", required = false) MultipartFile coverImage,
 			@RequestParam(value = "image", required = false) MultipartFile image,
@@ -93,64 +94,9 @@ public class BookController {
 			HttpServletResponse response)throws UnknownHostException {
 
 		Book book = new Gson().fromJson(bookString, Book.class);
-		return new ResponseEntity<Response>(
-				new Response(200, "Book updates successfully.",bookService.update(book,coverImage,image)),
-				HttpStatus.OK);
-	}
-	
-	/**
-	 * <b>Returns book.</b>
-	 *
-	 * <h3>Request Method GET</h3>
-	 *
-	 * @param bookId : String Type, param Type PathVariable
-	 * @param accessToken : String Type but not required, param Type RequestHeader
-	 * @param response
-	 * @return response
-	 * @throws UnknownHostException
-	 */
-	@CrossOrigin
-	@RequestMapping(value = "/{bookId}", method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<Response> getBookById(
-			@PathVariable("bookId") String bookId,
-			@RequestHeader(value = "X-AUTH-HEADER", defaultValue = "foo") String accessToken,
-			HttpServletResponse response)throws UnknownHostException {
 		
-		return new ResponseEntity<Response>(
-				new Response(200, "Fetched Book successfully.",bookService.getBookById(bookId)),
-				HttpStatus.OK);
-	}
-	
-	/**
-	 * <b>Returns all book List.</b>
-	 * 
-	 * <h3>Request Method GET</h3>
-	 * 
-	 * Example URL : http://localhost:8989/crackerapi/book/?page=1&size=4&sort=bookName,DESC  
-	 * 
-	 * @param query : String Type, param Type RequestParam
-	 * @param page : Integer Type, param Type RequestParam
-	 * @param size : Integer Type, param Type RequestParam
-	 * @param sort : String Type, param Type RequestParam
-	 * @param accessToken : String Type but not required, param Type RequestHeader
-	 * @param response
-	 * @return response
-	 * @throws UnknownHostException
-	 */
-	@CrossOrigin
-	@RequestMapping(value = "", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<Response> getBooks(
-			@RequestParam(value = "q", required = false) String query,
-			@RequestParam(value = "page", required = false) Integer page,
-			@RequestParam(value = "size", required = false) Integer size,
-			@RequestParam(value = "sort", required = false) String sort,
-			@RequestHeader(value = "X-AUTH-HEADER", defaultValue = "foo") String accessToken,
-			HttpServletResponse response)throws UnknownHostException {
 		
-		Long totalElements = bookService.count();
-		Page<Book> pages = bookService.getBooks(HelperUtility.getPageable(page, size, sort, totalElements));
-		
-		return new ResponseEntity<Response>(new Response(200, "Fetched books successfully of given page.",
-				pages.getContent(), HelperUtility.getPageableResponse(pages)), HttpStatus.OK);
+		return new ResponseEntity<Response<Book>>(new Response<Book>(
+                HttpStatus.OK.value(), "Book updates successfully.",bookService.update(book,coverImage,image)), HttpStatus.OK);
 	}
 }

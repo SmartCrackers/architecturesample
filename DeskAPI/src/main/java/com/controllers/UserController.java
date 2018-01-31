@@ -55,13 +55,12 @@ public class UserController {
 	 */
 	@CrossOrigin 
 	@RequestMapping(value = "/", method = RequestMethod.POST, produces = "application/json")
-	public @ResponseBody ResponseEntity<Response> saveUser(@RequestBody User user,
+	public @ResponseBody ResponseEntity<Response<User>> saveUser(@RequestBody User user,
 			@RequestHeader(value = "X-AUTH-HEADER", defaultValue = "foo") String accessToken,
 			HttpServletResponse response) throws UnknownHostException {
 		
-		return new ResponseEntity<Response>(
-				new Response(200, "User saved successfully.",userService.save(user)),
-				HttpStatus.OK);
+		return new ResponseEntity<Response<User>>(new Response<User>(
+                HttpStatus.OK.value(), "User saved successfully.",userService.save(user)), HttpStatus.OK);
 	}
 	
 	/**
@@ -74,7 +73,7 @@ public class UserController {
 	 */
 	@CrossOrigin 
 	@RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody ResponseEntity<Response> getUsers(
+	public @ResponseBody ResponseEntity<Response<List<User>>> getUsers(
 			@RequestParam(value = "q", required = false) String query,
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "size", required = false) Integer size,
@@ -85,8 +84,8 @@ public class UserController {
 		Long totalElements = userService.count();
 		Page<User> pages = userService.getUsers(HelperUtility.getPageable(page, size, sort, totalElements));
 		
-		return new ResponseEntity<Response>(new Response(200, "Fetched users successfully of given page.",
-				pages.getContent(), HelperUtility.getPageableResponse(pages)), HttpStatus.OK);
+		return new ResponseEntity<Response<List<User>>>(new Response<List<User>>(
+                HttpStatus.OK.value(), "Fetched users successfully of given page.", pages.getContent()), HttpStatus.OK);
 	}
 	
 	/**
@@ -100,12 +99,11 @@ public class UserController {
 	 */
 	@CrossOrigin 
 	@RequestMapping(value = "/{userName}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody ResponseEntity<Response> getUserByUserName(
+	public @ResponseBody ResponseEntity<Response<User>> getUserByUserName(
 			@RequestHeader(value = "X-AUTH-HEADER", defaultValue = "foo") String accessToken,
 			@PathVariable("userName") String userName, HttpServletResponse response) throws UnknownHostException {
 		
-		return new ResponseEntity<Response>(
-				new Response(200, "Fetched User by userName successfully.",userService.getUserByUserName(userName)),
-				HttpStatus.OK);
+		return new ResponseEntity<Response<User>>(new Response<User>(
+                HttpStatus.OK.value(), "Fetched User by userName successfully.",userService.getUserByUserName(userName)), HttpStatus.OK);
 	}
 }

@@ -1,0 +1,21 @@
+html, body {
+    height: 100%;
+    width: 90%;
+    background-color: #6DB1C6;
+}
+
+.login-box {
+    position: relative;
+    top: 25%;
+    margin-left: 40%;
+}
+.signup-text{
+	position: relative;
+    top: 2%;
+}
+.login-shadow, .signup-shadow, .forgotPassword-shadow{
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);	
+}
+#signUpBox, #forgotPasswordBox{
+	display : none;
+}
