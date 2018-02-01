@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.Response;
 import com.Utility;
 import com.google.gson.Gson;
+import com.models.User;
 
 @Controller
 @ComponentScan("com.services,com.redis")
@@ -35,28 +36,23 @@ public class AdminController {
 		logger.info("Accessed login page.");
 		return new ModelAndView("admin/login", "data", data);
 	}
-	
-	@RequestMapping(value = { "/login" }, method = RequestMethod.POST)
-	public ModelAndView loginForm(@ModelAttribute("form") Object form, Model model) {
-		Gson g = new Gson();
-		
-		System.out.println(g.toJson(form));
+
+	@RequestMapping(value = { "/logged-in-index" }, method = RequestMethod.GET)
+	public ModelAndView loggedInIndex() throws IOException {
 		Map<String, Object> data = Utility.getViewData();
 		
 		data.put("content", "Woowwwww");
 		logger.info("Accessed login page.");
-		return new ModelAndView("admin/login", "data", data);
+		return new ModelAndView("app/logged-in-welcome", "data", data);
 	}
 	
 	@CrossOrigin
-	@RequestMapping(value="/login-ajax", method=RequestMethod.POST)
-	public ResponseEntity<Response<FormUser>> createUser(@RequestBody FormUser form, Model model){
+	@RequestMapping(value="/login", method=RequestMethod.POST)
+	public ResponseEntity<Response<FormUser>> createUser(@RequestBody FormUser user, Model model){
 		Gson g = new Gson();
-		
-		System.out.println(g.toJson(form));
-	     
+		System.out.println(g.toJson(user));
 		return new ResponseEntity<Response<FormUser>>(new Response<FormUser>(
-                HttpStatus.OK.value(), "FormSaved data saved successfully.", form), HttpStatus.OK);
+                HttpStatus.OK.value(), "User data saved successfully.", user), HttpStatus.OK);
 	}
 }
 

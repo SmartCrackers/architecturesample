@@ -1,7 +1,7 @@
 
 var ajaxResponse = '';
 
-function NotificationManagement(){
+function NotifyService(){
     
 	function notifyCall(notifyMessage,showTimeInSecond,classNameType){
 		
@@ -36,7 +36,7 @@ function NotificationManagement(){
     };
 };
 
-function FormManagement(){
+function FormService(){
 	this.baseUrl = '/DeskApp/';
 	
 	this.formSubmit = function(formId,submitUrl){
@@ -55,6 +55,7 @@ function FormManagement(){
             async: !1,
             success: function (data) {
             	result = data.status;
+            	colsole.log(result);
             },
             error: function (xhr, status, error) {
                 console.log("token has been expired." + xhr.responseText);

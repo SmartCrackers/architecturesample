@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	
-	var notify = new NotificationManagement();
-	var formManagement = new FormManagement();
+	var notifyService = new NotifyService();
+	var formService = new FormService();
 	
     $(".showSignIn").click(function() {
     	 $("#signUpBox").hide();
@@ -23,10 +23,13 @@ $(document).ready(function(){
 	 
 	 $('#loginBtn').on('click', function () {
 		 
-		 obj = { 'email' : $('#loginEmail').val() , 'password' : $('#loginPassword').val()};
-		 console.log(JSON.stringify(obj));
-		 status = formManagement.submitAjax(JSON.stringify(obj),"auth/login-ajax");
-		 console.log("check"+JSON.stringify(status));
-		 notify.sayInfo("Login",2);
+		 var loginCredintial = { 'email' : $('#loginEmail').val() , 'password' : $('#loginPassword').val() };
+		 
+		 console.log(JSON.stringify(loginCredintial));
+		 
+		 var status = formService.submitAjax(JSON.stringify(loginCredintial),'auth/login');
+		 
+		 console.log(status);
+		 notifyService.sayInfo("Login",2);
      });
 });
