@@ -29,7 +29,22 @@ $(document).ready(function(){
 		 
 		 var status = formService.submitAjax(JSON.stringify(loginCredintial),'auth/login');
 		 
-		 console.log(status);
-		 notifyService.sayInfo("Login",2);
+		 var baseurl = formService.locationOrigin+formService.baseUrl;
+		 if(status == 200 || status == 49 ){
+			 if(status == 200){
+				 console.log(baseurl);
+				 // TODO on login success baseUrl
+				 window.location.href = baseurl+"auth/logged-in-index";
+			 }
+			 if(status == 49){
+				 // TODO on bad credintial
+				 notifyService.sayError("Bad Credintial",10);
+			 }
+		 }else{
+			 // TODO on server internal error
+			 notifyService.sayError("Server Internal Error",10);
+		 }
+		 
+		// notifyService.sayInfo("Login",2);
      });
 });

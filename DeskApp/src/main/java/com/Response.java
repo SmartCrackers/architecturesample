@@ -3,6 +3,10 @@ package com;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
 @JsonInclude(value = Include.NON_NULL)
 public class Response<T> {
 
@@ -18,30 +22,6 @@ public class Response<T> {
 		super();
 		this.status = status;
 		this.message = message;
-		this.data = data;
-	}
-
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public T getData() {
-		return data;
-	}
-
-	public void setData(T data) {
 		this.data = data;
 	}
 }
