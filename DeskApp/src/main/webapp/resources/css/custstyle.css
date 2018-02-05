@@ -19,3 +19,55 @@ html, body {
 #signUpBox, #forgotPasswordBox{
 	display : none;
 }
+.profile-basic-info{
+	background-color: #F3F1F0;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.profile-pic{
+    height: 200px;
+    width: 200px;
+    border: 1px solid #d8d8d8;
+    border-radius: 100px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+input#userProfileFileUpload {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    opacity: 0;
+    width: 200px;
+    height: 200px;
+}
+
+.profile-pic-position{
+	margin-left: 18%;
+	margin-top: 4%;
+	position:relative;
+}
+.profile-pic-add-remove-btn{
+	display : none;
+}
+
+
+.margin-top-2x{
+	margin-top : 2%;
+}
+.cursor-pointer{
+	cursor: pointer;
+}
+.mb30{margin-bottom:30px;}
+
+.h250-profile-pic-btn{
+	height : 250px;
+}
+
+.box-shadow-2x{
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.box-shadow-4x{
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
