@@ -106,7 +106,7 @@ public class BaseFilter implements Filter {
 	private void writeErrorToResponse(Exception e, ServletResponse servletResponse) throws IOException {
 		Response response = new Response();
 		response.setStatus(500);
-		response.setStatusDescription(e.getMessage());
+		//response.setStatusDescription(e.getMessage());
 		try (PrintWriter writer = servletResponse.getWriter()) {
 			writer.write(new Gson().toJson(response));
 			writer.flush();
@@ -123,7 +123,7 @@ public class BaseFilter implements Filter {
 	private void writeBadTokenToResponse(ServletResponse servletResponse) throws IOException {
 		Response response = new Response();
 		response.setStatus(302);
-		response.setStatusDescription("Token has not been existed.");
+		//response.setStatusDescription("Token has not been existed.");
 		try (PrintWriter writer = servletResponse.getWriter()) {
 			writer.write(new Gson().toJson(response));
 			writer.flush();
@@ -139,7 +139,7 @@ public class BaseFilter implements Filter {
 	private void writeExpiredTokenToResponse(ServletResponse servletResponse) throws IOException {
 		Response response = new Response();
 		response.setStatus(302);
-		response.setStatusDescription("Token has been expired.");
+		//response.setStatusDescription("Token has been expired.");
 		try (PrintWriter writer = servletResponse.getWriter()) {
 			writer.write(new Gson().toJson(response));
 			writer.flush();

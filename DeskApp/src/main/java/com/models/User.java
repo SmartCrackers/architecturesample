@@ -3,6 +3,8 @@ package com.models;
 import java.io.Serializable;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.modelUtility.EditableInfo;
@@ -16,71 +18,30 @@ import lombok.Data;
 @Data
 public class User implements Serializable {
 	
-	@Id
 	private String id;
+	
 	private String firstName;
+	
 	private String lastName;
-	private String displayName;
+	
 	private String userName;
+	
 	private String password;
+	
 	private String email;
+	
 	private String userImage;
+	
 	private String hashedUserImage;
-	private String userCoverImage;
-	private String hashedUserCoverImage;
+	
+	private MultipartFile userProfileFileUpload;
+	
 	private Boolean isActive;
+	
 	private EditableInfo editableInfo;
 	
 	private String token;
 	
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-
-	public Boolean getIsTokenExpired() {
-		return isTokenExpired;
-	}
-
-	public void setIsTokenExpired(Boolean isTokenExpired) {
-		this.isTokenExpired = isTokenExpired;
-	}
-
-	public long getTokenCreatedAt() {
-		return tokenCreatedAt;
-	}
-
-	public void setTokenCreatedAt(long tokenCreatedAt) {
-		this.tokenCreatedAt = tokenCreatedAt;
-	}
-
-	public long getTokenLife() {
-		return tokenLife;
-	}
-
-	public void setTokenLife(long tokenLife) {
-		this.tokenLife = tokenLife;
-	}
-
-	public long getTokenExpiredAt() {
-		return tokenExpiredAt;
-	}
-
-	public void setTokenExpiredAt(long tokenExpiredAt) {
-		this.tokenExpiredAt = tokenExpiredAt;
-	}
-
-	public int getTokenExpiredType() {
-		return tokenExpiredType;
-	}
-
-	public void setTokenExpiredType(int tokenExpiredType) {
-		this.tokenExpiredType = tokenExpiredType;
-	}
-
 	@JsonProperty("isExpired")
 	private Boolean isTokenExpired;
 	

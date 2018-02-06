@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.Constants;
 import com.Response;
 import com.dao.DataAccessObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,15 +30,9 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 	@Value("${api}")
 	private String api;
 	
-	@Value("${user.api}")
-	private String userApi;
-	
-	@Value("${login}")
-	private String login;
-	
 	@Override
 	public void save(User user) throws IOException {
-		String url = ip+port;
+		String url = ip+port+api;
 		String data = new Gson().toJson(user);
 		
 		Map<String, String> header = new HashMap<String, String>();
@@ -45,7 +40,7 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 		header.put("token", "myToken");
 		
 		try{
-			sendPOST(url+userApi, data, header);
+			sendPOST(url+Constants.USER_SAVE_API, data, header);
 			logger.info("user saved.");
 		}catch(Exception ee){
 			logger.error("error while saving user.");
@@ -55,13 +50,13 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 	@Override
 	public List<User> getUsers() {
 		Gson gson = new Gson();
-		String url = ip+port;
+		String url = ip+port+api;
 		try{
 			Map<String, String> header = new HashMap<String, String>();
 			
 			header.put("token", "myToken");
 			
-			Response<List<User>> apiResponse = gson.fromJson(sendGET(url+userApi, header), Response.class);
+			Response<List<User>> apiResponse = gson.fromJson(sendGET(url+Constants.USER_SAVE_API, header), Response.class);
 			
 			System.out.println("apiResponse = "+new Gson().toJson(apiResponse));
 			
@@ -78,7 +73,7 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 
 	@Override
 	public User getUserByUserName(User user) {
-		String url = ip+port;
+		String url = ip+port+api;
 		Gson gson = new Gson();
 		if(user == null || user.getUserName() == null)
 			return null;
@@ -87,7 +82,7 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 			Map<String, String> header = new HashMap<String, String>();
 			header.put("token", "myToken");
 			
-			Response<User> apiResponse = gson.fromJson(sendGET(url+userApi+user.getUserName(),  header), Response.class); 
+			Response<User> apiResponse = gson.fromJson(sendGET(url+Constants.USER_SAVE_API+user.getUserName(),  header), Response.class); 
 			System.out.println("apiResponse = "+new Gson().toJson(apiResponse));
 			
 			if(apiResponse.getStatus() == 200){
@@ -123,7 +118,7 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 	@Override
 	public User setLoggedIn(User user) throws IOException {
 		
-		String url = this.ip+this.port+this.api+this.login;
+		String url = ip+port+api;
 		ObjectMapper mapper = new ObjectMapper();
 		Gson gson = new Gson();
 		if(user == null || user.getUserName() == null)

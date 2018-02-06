@@ -2,101 +2,62 @@ package com.models;
 
 import java.io.Serializable;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.modelUtility.EditableInfo;
+
+import lombok.Data;
 
 /**
  * @author RITESH SINGH
  *
  */
-@Document(collection = "users")
+@Data
 public class User implements Serializable {
 	
-	private static final long serialVersionUID = 7746218756589213487L;
-
-	@Id
 	private String id;
+	
 	private String firstName;
+	
 	private String lastName;
-	private String displayName;
+	
 	private String userName;
+	
 	private String password;
+	
 	private String email;
 	
-	private Boolean isActive;
-	private EditableInfo editableInfo;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public EditableInfo getEditableInfo() {
-		return editableInfo;
-	}
-
-	public void setEditableInfo(EditableInfo editableInfo) {
-		this.editableInfo = editableInfo;
-	}
-
-	public Boolean getIsActive() {
-		return isActive;
-	}
-
-	public void setIsActive(Boolean isActive) {
-		this.isActive = isActive;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
+	private String userImage;
 	
-	public String getDisplayName() {
-		return displayName;
-	}
-
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
+	private String hashedUserImage;
+	
+	private MultipartFile userProfileFileUpload;
+	
+	private Boolean isActive;
+	
+	private EditableInfo editableInfo;
+	
+	private String token;
+	
+	@JsonProperty("isExpired")
+	private Boolean isTokenExpired;
+	
+	@JsonProperty("createdAt")
+	private long tokenCreatedAt;
+	
+	/**
+	 * Token active period in milliseconds
+	 */
+	private long tokenLife;
+	@JsonProperty("expiredAt")
+	private long tokenExpiredAt;
+	
+	/*
+	 * if user logout then expiredType will be normal=1
+	 * if token time stamp exceeded then expiredType will be timeStampTriggered=2
+	 * if token set expired forcefully by Admin then  expiredType will be forced=3
+	 */
+	@JsonProperty("expiredType")
+	private int tokenExpiredType;
 }

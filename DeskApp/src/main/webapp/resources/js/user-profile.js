@@ -26,4 +26,12 @@ $(document).ready(function(){
 		$(".profile-pic-add-remove-btn").hide();
 	});
 	
+	$(".logout-icon").on("click", function(){
+		if($('.logut-popup').is(':hidden')){
+			$(".logut-popup").show();
+		}else{
+			$(".logut-popup").hide();
+		}
+		
+	});
 });
