@@ -18,6 +18,8 @@ import lombok.Data;
 @Data
 public class User implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+	
 	private String id;
 	
 	private String firstName;
@@ -30,10 +32,9 @@ public class User implements Serializable {
 	
 	private String email;
 	
-	private String userImage;
-	
 	private String hashedUserImage;
 	
+	@Transient
 	private MultipartFile userProfileFileUpload;
 	
 	private Boolean isActive;

@@ -6,10 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import com.Constants;
+import com.DeskAppWebException;
 import com.Response;
 import com.dao.DataAccessObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,23 +34,49 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 	@Value("${api}")
 	private String api;
 	
+	@Autowired
+	@Qualifier("fileUtilityServiceImpl")
+	private FileUtilityService fileUtilityService;
+	
 	@Override
 	public void save(User user) throws IOException {
 		String url = ip+port+api;
 		String data = new Gson().toJson(user);
 		
 		Map<String, String> header = new HashMap<String, String>();
-		
 		header.put("token", "myToken");
 		
 		try{
-			sendPOST(url+Constants.USER_SAVE_API, data, header);
-			logger.info("user saved.");
+			user.setId("1");
+			this.validateUser(user);
+			String responseObject = this.sendPOST(url+Constants.USER_SAVE_API, data, header);
+			logger.info("user saved.: "+ responseObject);
+			if(responseObject.equals("500")){
+				fileUtilityService.deleteFile(user.getId(), "profile", user.getHashedUserImage());
+				logger.error("uploaded file deleted cause for api not persist user.");
+			}
 		}catch(Exception ee){
 			logger.error("error while saving user.");
 		}
 	}
 
+	private void validateUser(User user){
+		
+		if(ObjectUtils.isEmpty(user)){
+			logger.info("user canot be null occur on web validation while saving.");
+			throw new DeskAppWebException("user cannot empty while saving");
+		}
+		try{
+			if(!ObjectUtils.isEmpty(user.getUserProfileFileUpload()) && !ObjectUtils.isEmpty(user.getId())){
+				user.setHashedUserImage(fileUtilityService.getFileName(user.getUserProfileFileUpload().getName()));
+				fileUtilityService.saveFile(user.getUserProfileFileUpload(), user.getId(), "profile", user.getHashedUserImage());
+			}
+		}catch(DeskAppWebException e){
+			logger.info("error occur on uploading profile while user saving.");
+			throw new DeskAppWebException("user cannot empty while saving",e);
+		}
+	}
+	
 	@Override
 	public List<User> getUsers() {
 		Gson gson = new Gson();
@@ -56,7 +86,7 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 			
 			header.put("token", "myToken");
 			
-			Response<List<User>> apiResponse = gson.fromJson(sendGET(url+Constants.USER_SAVE_API, header), Response.class);
+			Response<List<User>> apiResponse = gson.fromJson(this.sendGET(url+Constants.USER_SAVE_API, header), Response.class);
 			
 			System.out.println("apiResponse = "+new Gson().toJson(apiResponse));
 			
@@ -82,7 +112,7 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 			Map<String, String> header = new HashMap<String, String>();
 			header.put("token", "myToken");
 			
-			Response<User> apiResponse = gson.fromJson(sendGET(url+Constants.USER_SAVE_API+user.getUserName(),  header), Response.class); 
+			Response<User> apiResponse = gson.fromJson(this.sendGET(url+Constants.USER_SAVE_API+user.getUserName(),  header), Response.class); 
 			System.out.println("apiResponse = "+new Gson().toJson(apiResponse));
 			
 			if(apiResponse.getStatus() == 200){
@@ -127,7 +157,7 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 		try{
 			Map<String, String> header = new HashMap<String, String>();
 
-			Response<User> apiResponse = gson.fromJson(sendPOST(url,gson.toJson(user),  header), Response.class); 
+			Response<User> apiResponse = gson.fromJson(this.sendPOST(url,gson.toJson(user),  header), Response.class); 
 			System.out.println("apiResponse = "+new Gson().toJson(apiResponse));
 			
 			if(apiResponse.getStatus() == 200){
@@ -148,7 +178,7 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 	public boolean setLoggedOut(User user) throws IOException {
 		try{
 			if(user != null){
-				user = getUserByUserName(user);
+				user = this.getUserByUserName(user);
 				if(user != null){
 					user.setIsActive(false);
 					save(user);

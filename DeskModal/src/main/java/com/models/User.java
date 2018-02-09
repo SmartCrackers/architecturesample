@@ -2,8 +2,6 @@ package com.models;
 
 import java.io.Serializable;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.modelUtility.EditableInfo;
 
@@ -15,6 +13,8 @@ import lombok.Data;
  */
 @Data
 public class User implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	private String id;
 	
@@ -28,11 +28,7 @@ public class User implements Serializable {
 	
 	private String email;
 	
-	private String userImage;
-	
 	private String hashedUserImage;
-	
-	private MultipartFile userProfileFileUpload;
 	
 	private Boolean isActive;
 	

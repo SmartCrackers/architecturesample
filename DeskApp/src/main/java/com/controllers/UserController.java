@@ -51,9 +51,6 @@ public class UserController {
 	public ModelAndView saveProfile(@ModelAttribute("userProfile") User user, BindingResult result,
 			HttpServletRequest request) throws IOException {
 		
-		Gson g = new Gson();
-		System.out.println(g.toJson(user));
-		
 		userService.save(user);
 		
 		Map<String, Object> data = ThymeleafUtility.getViewData(VIEW,"profileUpdateFragment","userProfileJsFragment");

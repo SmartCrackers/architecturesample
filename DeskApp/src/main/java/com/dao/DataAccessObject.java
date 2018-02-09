@@ -17,117 +17,130 @@ public class DataAccessObject {
 	private URL obj = null;
 	private HttpURLConnection con = null ;
 	
-	protected String sendPOST(String url, String data, Map<String, String> header) throws IOException {
-		obj = new URL(url);
-		con = (HttpURLConnection) obj.openConnection();
-		con.setRequestMethod("POST");
-		con.setRequestProperty("Content-Type", "application/json");
+	protected String sendPOST(String url, String data, Map<String, String> header){
 		
-		// For POST only - START
-		con.setDoOutput(true);
-		OutputStream os = con.getOutputStream();
-		os.write(data.getBytes());
-		os.flush();
-		os.close();
-		// For POST only - END
-
-		int responseCode = con.getResponseCode();
-		//System.out.println("API RESPONSE POST Response Code :: " + responseCode);
-
-		if (responseCode == HttpURLConnection.HTTP_OK) { //success
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					con.getInputStream()));
-			String inputLine;
-			StringBuffer response = new StringBuffer();
-
-			while ((inputLine = in.readLine()) != null) {
-				response.append(inputLine);
+		try{
+			obj = new URL(url);
+			con = (HttpURLConnection) obj.openConnection();
+			con.setRequestMethod("POST");
+			con.setRequestProperty("Content-Type", "application/json");
+			
+			for (Map.Entry<String, String> entry : header.entrySet())
+			{
+				con.setRequestProperty(entry.getKey(), entry.getValue());
 			}
-			in.close();
-			// print result
-			//System.out.println("App DAO Response = "+response.toString());
-			logger.info("DAO success for post request.");
-			return response.toString();
-		} else {
-			System.out.println("App DAO Response = POST request not worked");
-			logger.error("App DAO Response = POST request not worked");
+
+			con.setDoOutput(true);
+			OutputStream os = con.getOutputStream();
+			os.write(data.getBytes());
+			os.flush();
+			os.close();
+
+			int responseCode = con.getResponseCode();
+
+			if (responseCode == HttpURLConnection.HTTP_OK) {
+				BufferedReader in = new BufferedReader(new InputStreamReader(
+						con.getInputStream()));
+				String inputLine;
+				StringBuffer response = new StringBuffer();
+
+				while ((inputLine = in.readLine()) != null) {
+					response.append(inputLine);
+				}
+				in.close();
+				logger.info("DAO success for post request.");
+				return response.toString();
+			} else {
+				logger.error("App DAO Response = POST request not worked. cause :"+con.getResponseMessage());
+			}
+		}catch(Exception e){
+			logger.error("error while accessing api");
+		}finally{
+			con.disconnect();
+			logger.error("cleanup");
 		}
+		
 		return "500";
 	}
-	
 	protected void sendPOST1(String url, String data, Map<String, String> header) throws IOException {
-		obj = new URL(url);
-		con = (HttpURLConnection) obj.openConnection();
-		con.setRequestMethod("POST");
-		con.setRequestProperty("Content-Type", "application/json");
-		
-		for (Map.Entry<String, String> entry : header.entrySet())
-		{
-			con.setRequestProperty(entry.getKey(), entry.getValue());
-		}
-		
-		// For POST only - START
-		con.setDoOutput(true);
-		OutputStream os = con.getOutputStream();
-		os.write(data.getBytes());
-		os.flush();
-		os.close();
-		// For POST only - END
-
-		int responseCode = con.getResponseCode();
-		System.out.println("POST Response Code :: " + responseCode);
-
-		if (responseCode == HttpURLConnection.HTTP_OK) { //success
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					con.getInputStream()));
-			String inputLine;
-			StringBuffer response = new StringBuffer();
-
-			while ((inputLine = in.readLine()) != null) {
-				response.append(inputLine);
+		try{
+			obj = new URL(url);
+			con = (HttpURLConnection) obj.openConnection();
+			con.setRequestMethod("POST");
+			con.setRequestProperty("Content-Type", "application/json");
+			
+			for (Map.Entry<String, String> entry : header.entrySet())
+			{
+				con.setRequestProperty(entry.getKey(), entry.getValue());
 			}
-			in.close();
+			
+			con.setDoOutput(true);
+			OutputStream os = con.getOutputStream();
+			os.write(data.getBytes());
+			os.flush();
+			os.close();
 
-			// print result
-			System.out.println(response.toString());
-		} else {
-			System.out.println("POST request not worked");
+			int responseCode = con.getResponseCode();
+			
+			if (responseCode == HttpURLConnection.HTTP_OK) { //success
+				BufferedReader in = new BufferedReader(new InputStreamReader(
+						con.getInputStream()));
+				String inputLine;
+				StringBuffer response = new StringBuffer();
+
+				while ((inputLine = in.readLine()) != null) {
+					response.append(inputLine);
+				}
+				in.close();
+
+			} else {
+				System.out.println("POST request not worked");
+			}
+		}catch(Exception e){
+			logger.error("error while accessing api");
+		}finally{
+			con.disconnect();
+			logger.error("cleanup");
 		}
 	}
 	
-	protected String sendGET(String url,  Map<String, String> header) throws IOException {
-		obj = new URL(url);
-		con = (HttpURLConnection) obj.openConnection();
-		con.setRequestMethod("GET");
-		con.setRequestProperty("User-Data", "dfg");
-		
-		for (Map.Entry<String, String> entry : header.entrySet())
-		{
-			con.setRequestProperty(entry.getKey(), entry.getValue());
-		}
-		
-		
-		int responseCode = con.getResponseCode();
-		//System.out.println("GET Response Code :: " + responseCode);
-		if (responseCode == HttpURLConnection.HTTP_OK) { // success
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					con.getInputStream()));
-			String inputLine;
-			StringBuffer response = new StringBuffer();
-
-			while ((inputLine = in.readLine()) != null) {
-				response.append(inputLine);
+	protected String sendGET(String url,  Map<String, String> header){
+		try{
+			obj = new URL(url);
+			con = (HttpURLConnection) obj.openConnection();
+			con.setRequestMethod("GET");
+			con.setRequestProperty("User-Data", "dfg");
+			
+			for (Map.Entry<String, String> entry : header.entrySet())
+			{
+				con.setRequestProperty(entry.getKey(), entry.getValue());
 			}
-			in.close();
+			
+			int responseCode = con.getResponseCode();
+			
+			if (responseCode == HttpURLConnection.HTTP_OK) {
+				BufferedReader in = new BufferedReader(new InputStreamReader(
+						con.getInputStream()));
+				String inputLine;
+				StringBuffer response = new StringBuffer();
 
-			// print result
-			//System.out.println("App DAO Response= "+response.toString());
-			logger.info("DAO success for get request.");
-			return response.toString();
-		} else {
-			System.out.println("App DAO Response = GET request not worked");
-			logger.error("App DAO Response = GET request not worked");
+				while ((inputLine = in.readLine()) != null) {
+					response.append(inputLine);
+				}
+				in.close();
+				
+				logger.info("DAO success for get request.");
+				return response.toString();
+			} else {
+				System.out.println("App DAO Response = GET request not worked");
+				logger.error("App DAO Response = GET request not worked");
+			}
+		}catch(Exception e){
+			logger.error("error while accessing api");
+		}finally{
+			con.disconnect();
+			logger.error("cleanup");
 		}
-		return null;
+		return "500";
 	}
 }

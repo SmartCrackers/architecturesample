@@ -23,10 +23,6 @@ import com.repositories.UserRepository;
 @Service("userService")
 @ComponentScan("com.repositories")
 public class UserServiceImpl implements UserService {
-
-	/*@Autowired
-	@Qualifier("userRepository")
-	private UserRepository userRepository;*/
 	
 	@Autowired
 	@Qualifier("userRepository")

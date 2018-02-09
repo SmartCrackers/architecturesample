@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.HelperUtility;
 import com.Response;
@@ -54,10 +56,30 @@ public class UserController {
 	 * @throws UnknownHostException
 	 */
 	@CrossOrigin 
-	@RequestMapping(value = "/", method = RequestMethod.POST, produces = "application/json")
-	public @ResponseBody ResponseEntity<Response<User>> saveUser(@RequestBody User user,
+	@RequestMapping(value = "/form-data", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Response<User>> saveUserFormData(
+			@RequestParam(value = "userString")  String userString,
+			@RequestParam(value = "profilePicture", required = false) MultipartFile profilePicture,
 			@RequestHeader(value = "X-AUTH-HEADER", defaultValue = "foo") String accessToken,
 			HttpServletResponse response) throws UnknownHostException {
+		
+		User user = new Gson().fromJson(userString, User.class);
+		Gson g = new Gson();
+		System.out.println("1111111: "+g.toJson(user));
+		
+		return new ResponseEntity<Response<User>>(new Response<User>(
+                HttpStatus.OK.value(), "User saved successfully.",userService.save(user)), HttpStatus.OK);
+	}
+	
+	@CrossOrigin 
+	@RequestMapping(value = "/", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Response<User>> saveUser(
+			@RequestBody  User user,
+			@RequestHeader(value = "X-AUTH-HEADER", defaultValue = "foo") String accessToken,
+			HttpServletResponse response) throws UnknownHostException {
+		
+		Gson g = new Gson();
+		System.out.println("sdfhjksdhjk: "+g.toJson(user));
 		
 		return new ResponseEntity<Response<User>>(new Response<User>(
                 HttpStatus.OK.value(), "User saved successfully.",userService.save(user)), HttpStatus.OK);
