@@ -55,10 +55,10 @@ public class UserServiceImpl implements UserService {
 				String message = String.format("UserEmail can not be blank.");
 				throw new BookException(message);
 			}
-			if(user.getPassword()==null){
+			/*if(user.getPassword()==null){
 				String message = String.format("UserPassword can not be blank.");
 				throw new BookException(message);
-			}
+			}*/
 			
 			User existingUserName = userRepository.getUserByUserName(user.getUserName());
 			if(existingUserName==null){

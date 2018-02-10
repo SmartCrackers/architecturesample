@@ -5,15 +5,14 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,12 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.HelperUtility;
 import com.Response;
 import com.google.gson.Gson;
-import com.models.Book;
 import com.models.User;
 
 import com.services.UserService;
@@ -42,34 +39,11 @@ import com.services.UserService;
 @RequestMapping("user")
 public class UserController {
 
+	final static Logger LOGGER = Logger.getLogger(UserController.class);
+	
 	@Autowired
 	@Qualifier("userService")
 	private UserService userService;
-
-	/**
-	 * <b>Create new User.</b>
-	 * <h3>Request Method POST</h3>
-	 * @param user : Object Type, param Type RequestBody
-	 * @param accessToken : String Type but not required, param Type RequestHeader
-	 * @param response
-	 * @return
-	 * @throws UnknownHostException
-	 */
-	@CrossOrigin 
-	@RequestMapping(value = "/form-data", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<Response<User>> saveUserFormData(
-			@RequestParam(value = "userString")  String userString,
-			@RequestParam(value = "profilePicture", required = false) MultipartFile profilePicture,
-			@RequestHeader(value = "X-AUTH-HEADER", defaultValue = "foo") String accessToken,
-			HttpServletResponse response) throws UnknownHostException {
-		
-		User user = new Gson().fromJson(userString, User.class);
-		Gson g = new Gson();
-		System.out.println("1111111: "+g.toJson(user));
-		
-		return new ResponseEntity<Response<User>>(new Response<User>(
-                HttpStatus.OK.value(), "User saved successfully.",userService.save(user)), HttpStatus.OK);
-	}
 	
 	@CrossOrigin 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
@@ -80,7 +54,7 @@ public class UserController {
 		
 		Gson g = new Gson();
 		System.out.println("sdfhjksdhjk: "+g.toJson(user));
-		
+		LOGGER.info("user saved api accessed.");
 		return new ResponseEntity<Response<User>>(new Response<User>(
                 HttpStatus.OK.value(), "User saved successfully.",userService.save(user)), HttpStatus.OK);
 	}
@@ -106,6 +80,7 @@ public class UserController {
 		Long totalElements = userService.count();
 		Page<User> pages = userService.getUsers(HelperUtility.getPageable(page, size, sort, totalElements));
 		
+		LOGGER.info("fetch user profile, api accessed.");
 		return new ResponseEntity<Response<List<User>>>(new Response<List<User>>(
                 HttpStatus.OK.value(), "Fetched users successfully of given page.", pages.getContent()), HttpStatus.OK);
 	}
@@ -125,6 +100,7 @@ public class UserController {
 			@RequestHeader(value = "X-AUTH-HEADER", defaultValue = "foo") String accessToken,
 			@PathVariable("userName") String userName, HttpServletResponse response) throws UnknownHostException {
 		
+		LOGGER.info("fetch user profile by username, api accessed.");
 		return new ResponseEntity<Response<User>>(new Response<User>(
                 HttpStatus.OK.value(), "Fetched User by userName successfully.",userService.getUserByUserName(userName)), HttpStatus.OK);
 	}

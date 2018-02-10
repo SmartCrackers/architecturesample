@@ -39,7 +39,7 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 	private FileUtilityService fileUtilityService;
 	
 	@Override
-	public void save(User user) throws IOException {
+	public void save(User user) {
 		String url = ip+port+api;
 		String data = new Gson().toJson(user);
 		
@@ -55,8 +55,9 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 				fileUtilityService.deleteFile(user.getId(), "profile", user.getHashedUserImage());
 				logger.error("uploaded file deleted cause for api not persist user.");
 			}
-		}catch(Exception ee){
+		}catch(DeskAppWebException  ee){
 			logger.error("error while saving user.");
+			throw new DeskAppWebException("error while saving user.", ee);
 		}
 	}
 
@@ -102,13 +103,15 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 	}
 
 	@Override
-	public User getUserByUserName(User user) {
+	public User getUserByUserName(String userName) {
 		String url = ip+port+api;
 		Gson gson = new Gson();
-		if(user == null || user.getUserName() == null)
+		if(ObjectUtils.isEmpty(userName)){
 			return null;
-			
+		}
 		try{
+			User user = new User();
+			
 			Map<String, String> header = new HashMap<String, String>();
 			header.put("token", "myToken");
 			
@@ -130,7 +133,7 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 	public boolean isLoggedIn(User user) {
 		
 		if(user != null){
-			user = getUserByUserName(user);
+			user = getUserByUserName(user.getUserName());
 			try{
 				if(user != null && user.getIsActive()){
 					logger.info("passed user loggedIn.");
@@ -178,7 +181,7 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 	public boolean setLoggedOut(User user) throws IOException {
 		try{
 			if(user != null){
-				user = this.getUserByUserName(user);
+				user = this.getUserByUserName(user.getUserName());
 				if(user != null){
 					user.setIsActive(false);
 					save(user);

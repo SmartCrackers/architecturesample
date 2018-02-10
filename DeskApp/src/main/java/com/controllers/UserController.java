@@ -39,7 +39,7 @@ public class UserController {
 		return new ModelAndView("home");
 	}
 	
-	@RequestMapping(value = { "/profile" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/profile/{userName}" }, method = RequestMethod.GET)
 	public ModelAndView getProfileForm() throws IOException {
 		Map<String, Object> data = ThymeleafUtility.getViewData(VIEW,"profileUpdateFragment","userProfileJsFragment");
 		data.put("content", "Woowwwww"); 

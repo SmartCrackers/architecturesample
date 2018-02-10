@@ -11,8 +11,24 @@ $(document).ready(function(){
     
     $(".showSignUp").click(function() {
     	$("#forgotPasswordBox").hide();
-   	 	$("#loginBox").hide();
-   	 	$("#signUpBox").show();
+	   	$("#loginBox").hide();
+	   	$("#signUpBox").show();
+	 });
+    
+    $("#signUpUser").click(function() {
+    	var signUpObj = { "userName" : $("#userNameSignUp").val() , "email" : $("#emailSignUp").val(), "password" : $("#passwordSignUp").val()};
+		console.log(JSON.stringify(signUpObj));
+		
+		var status = formService.submitAjax(JSON.stringify(signUpObj),'auth/signup');
+		console.log(JSON.stringify(status));
+		if(status == 200 ){
+			$("#forgotPasswordBox").hide();
+	   	 	$("#signUpBox").hide();
+	   	 	$("#loginBox").show();
+	   	 notifyService.saySuccess("Signup Success",10);
+		 }else{
+			notifyService.sayError("Server Internal Error",10);
+		 }
 	 });
     
     $(".showForgotPassword").click(function() {

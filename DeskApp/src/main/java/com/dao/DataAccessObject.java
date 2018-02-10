@@ -9,10 +9,11 @@ import java.net.URL;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.springframework.util.ObjectUtils;
 
 public class DataAccessObject {
 
-	final static Logger logger = Logger.getLogger(DataAccessObject.class);
+	final static Logger LOGGER = Logger.getLogger(DataAccessObject.class);
 	
 	private URL obj = null;
 	private HttpURLConnection con = null ;
@@ -48,20 +49,22 @@ public class DataAccessObject {
 					response.append(inputLine);
 				}
 				in.close();
-				logger.info("DAO success for post request.");
+				LOGGER.info("DAO success for post request.");
 				return response.toString();
 			} else {
-				logger.error("App DAO Response = POST request not worked. cause :"+con.getResponseMessage());
+				LOGGER.error("App DAO Response = POST request not worked. cause :"+con.getResponseMessage());
 			}
 		}catch(Exception e){
-			logger.error("error while accessing api");
+			LOGGER.error("error while accessing api");
 		}finally{
-			con.disconnect();
-			logger.error("cleanup");
+			if(!ObjectUtils.isEmpty(con))
+				con.disconnect();
+			LOGGER.error("cleanup");
 		}
 		
 		return "500";
 	}
+	
 	protected void sendPOST1(String url, String data, Map<String, String> header) throws IOException {
 		try{
 			obj = new URL(url);
@@ -97,10 +100,11 @@ public class DataAccessObject {
 				System.out.println("POST request not worked");
 			}
 		}catch(Exception e){
-			logger.error("error while accessing api");
+			LOGGER.error("error while accessing api");
 		}finally{
-			con.disconnect();
-			logger.error("cleanup");
+			if(!ObjectUtils.isEmpty(con))
+				con.disconnect();
+			LOGGER.error("cleanup");
 		}
 	}
 	
@@ -129,17 +133,18 @@ public class DataAccessObject {
 				}
 				in.close();
 				
-				logger.info("DAO success for get request.");
+				LOGGER.info("DAO success for get request.");
 				return response.toString();
 			} else {
 				System.out.println("App DAO Response = GET request not worked");
-				logger.error("App DAO Response = GET request not worked");
+				LOGGER.error("App DAO Response = GET request not worked");
 			}
 		}catch(Exception e){
-			logger.error("error while accessing api");
+			LOGGER.error("error while accessing api");
 		}finally{
-			con.disconnect();
-			logger.error("cleanup");
+			if(!ObjectUtils.isEmpty(con))
+				con.disconnect();
+			LOGGER.error("cleanup");
 		}
 		return "500";
 	}

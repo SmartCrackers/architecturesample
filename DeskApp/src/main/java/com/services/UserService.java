@@ -7,9 +7,9 @@ import com.models.User;
 
 public interface UserService {
 
-	public void save(User user) throws IOException;
+	public void save(User user);
 	
-	public User getUserByUserName(User user);
+	public User getUserByUserName(String userName);
 	
 	public boolean isLoggedIn(User user);
 	
