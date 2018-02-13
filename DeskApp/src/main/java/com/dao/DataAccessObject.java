@@ -139,7 +139,9 @@ public class DataAccessObject {
 				LOGGER.info("DAO success for get request.");
 				return response.toString();
 			} else {
-				LOGGER.error("App DAO Response = GET request not worked");
+				LOGGER.error("App DAO Response = GET request not worked responsecode: "+responseCode);
+				LOGGER.error("App DAO =Api URL: "+url);
+				LOGGER.error("App DAO =Api responseCode: "+responseCode);
 				throw new DeskAppWebException("App DAO Response = GET request not worked");
 			}
 		}catch(Exception e){
