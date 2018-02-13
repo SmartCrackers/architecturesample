@@ -6,10 +6,13 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.util.ObjectUtils;
+
+import com.DeskAppWebException;
 
 public class DataAccessObject {
 
@@ -53,16 +56,16 @@ public class DataAccessObject {
 				return response.toString();
 			} else {
 				LOGGER.error("App DAO Response = POST request not worked. cause :"+con.getResponseMessage());
+				throw new DeskAppWebException("error while accessing api");
 			}
 		}catch(Exception e){
 			LOGGER.error("error while accessing api");
+			throw new DeskAppWebException("error while accessing api", e);
 		}finally{
 			if(!ObjectUtils.isEmpty(con))
 				con.disconnect();
 			LOGGER.error("cleanup");
 		}
-		
-		return "500";
 	}
 	
 	protected void sendPOST1(String url, String data, Map<String, String> header) throws IOException {
@@ -136,16 +139,22 @@ public class DataAccessObject {
 				LOGGER.info("DAO success for get request.");
 				return response.toString();
 			} else {
-				System.out.println("App DAO Response = GET request not worked");
 				LOGGER.error("App DAO Response = GET request not worked");
+				throw new DeskAppWebException("App DAO Response = GET request not worked");
 			}
 		}catch(Exception e){
 			LOGGER.error("error while accessing api");
+			throw new DeskAppWebException("error while accessing api", e);
 		}finally{
 			if(!ObjectUtils.isEmpty(con))
 				con.disconnect();
 			LOGGER.error("cleanup");
 		}
-		return "500";
+	}
+	
+	protected Map<String, String> createHeaderInstance(){
+		Map<String, String> header = new HashMap<String, String>();
+		header.put("X-AUTH-HEADER", "myToken");
+		return header;
 	}
 }

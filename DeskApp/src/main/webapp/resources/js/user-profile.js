@@ -3,7 +3,7 @@ $(document).ready(function(){
 	var notifyService = new NotifyService();
 	var formService = new FormService();
 	
-	var profileUrl = "../resources/img/smile.png";
+	var profileUrl = "/DeskApp/resources/img/smile.png";
 	
 	$("#userProfileFileUpload").on("change", function(){
 		
@@ -17,13 +17,6 @@ $(document).ready(function(){
 		};
 		
 		$(".profile-pic-add-remove-btn").show();
-	});
-	
-	$("#cancelPicChange").on("click", function(){
-		$("#userProfilePreview").css({
-			"background-image": "url("+profileUrl+")" 
-		});
-		$(".profile-pic-add-remove-btn").hide();
 	});
 	
 	$(".logout-icon").on("click", function(){

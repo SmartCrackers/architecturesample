@@ -65,7 +65,7 @@ public class BaseFilter implements Filter {
 		while (params.hasMoreElements()) {
 			String name = params.nextElement();
 			String value = request.getParameter(name);
-			this.context.log(request.getRemoteAddr() + "::Request Params::{" + name + "=" + value + "}");
+			this.context.log(request.getRemoteAddr() + "::Request Params on API::{" + name + "=" + value + "}");
 		}
 
 		String token = req.getHeader("X-AUTH-HEADER");

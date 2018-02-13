@@ -17,6 +17,8 @@ public interface UserService {
 
 	User save(User user);
 	
+	User update(User user);
+	
 	Long count();
 	
 	List<User> getUsers(Sort sort);

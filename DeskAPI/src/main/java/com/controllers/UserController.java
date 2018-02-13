@@ -59,6 +59,18 @@ public class UserController {
                 HttpStatus.OK.value(), "User saved successfully.",userService.save(user)), HttpStatus.OK);
 	}
 	
+	@CrossOrigin 
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Response<User>> updateUser(
+			@RequestBody  User user,
+			@RequestHeader(value = "X-AUTH-HEADER", defaultValue = "foo") String accessToken,
+			HttpServletResponse response) throws UnknownHostException {
+		
+		LOGGER.info("user saved api accessed.");
+		return new ResponseEntity<Response<User>>(new Response<User>(
+                HttpStatus.OK.value(), "User saved successfully.",userService.update(user)), HttpStatus.OK);
+	}
+	
 	/**
 	 * <b>Returns all users List</b>
 	 * <h3>Request Method GET</h3>

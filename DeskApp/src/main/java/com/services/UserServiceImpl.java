@@ -1,6 +1,5 @@
 package com.services;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,13 +10,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 import com.Constants;
 import com.DeskAppWebException;
 import com.Response;
+import com.config.SessionConfig;
 import com.dao.DataAccessObject;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.models.User;
 
 @Service("userService")
@@ -39,38 +40,77 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 	private FileUtilityService fileUtilityService;
 	
 	@Override
-	public void save(User user) {
+	public User save(User user) {
+		Gson gson = new Gson();
 		String url = ip+port+api;
 		String data = new Gson().toJson(user);
 		
-		Map<String, String> header = new HashMap<String, String>();
-		header.put("token", "myToken");
+		Map<String, String> header = this.createHeaderInstance();
 		
 		try{
-			user.setId("1");
 			this.validateUser(user);
-			String responseObject = this.sendPOST(url+Constants.USER_SAVE_API, data, header);
-			logger.info("user saved.: "+ responseObject);
-			if(responseObject.equals("500")){
+			Response<User> apiResponse = gson.fromJson(this.sendPOST(url+Constants.USER_SAVE_API, data, header),new TypeToken<Response<User>>(){}.getType());
+			
+			if(apiResponse.getStatus() != 200){
 				fileUtilityService.deleteFile(user.getId(), "profile", user.getHashedUserImage());
 				logger.error("uploaded file deleted cause for api not persist user.");
+			}else if(apiResponse.getStatus() == 200){
+				user = apiResponse.getData();
 			}
+			
+			return user;
 		}catch(DeskAppWebException  ee){
 			logger.error("error while saving user.");
 			throw new DeskAppWebException("error while saving user.", ee);
 		}
 	}
 
+	@Override
+	public User update(User user) {
+		Gson gson = new Gson();
+		String url = ip+port+api;
+		
+		Map<String, String> header = this.createHeaderInstance();
+		
+		try{
+			
+			this.validateUser(user);
+			String data = new Gson().toJson(user);
+			Response<User> apiResponse = gson.fromJson(this.sendPOST(url+Constants.USER_UPDATE_API, data, header),new TypeToken<Response<User>>(){}.getType());
+			
+			if(apiResponse.getStatus() != 200){
+				fileUtilityService.deleteFile(user.getUserName(), "profile", user.getHashedUserImage());
+				logger.error("uploaded file deleted cause for api not updated user.");
+			}else if(apiResponse.getStatus() == 200){
+				user = apiResponse.getData();
+			}
+			
+			return user;
+		}catch(DeskAppWebException  ee){
+			logger.error("error while saving user.");
+			throw new DeskAppWebException("error while updating user.", ee);
+		}
+	}
+	
 	private void validateUser(User user){
 		
 		if(ObjectUtils.isEmpty(user)){
 			logger.info("user canot be null occur on web validation while saving.");
 			throw new DeskAppWebException("user cannot empty while saving");
 		}
+		
 		try{
-			if(!ObjectUtils.isEmpty(user.getUserProfileFileUpload()) && !ObjectUtils.isEmpty(user.getId())){
-				user.setHashedUserImage(fileUtilityService.getFileName(user.getUserProfileFileUpload().getName()));
-				fileUtilityService.saveFile(user.getUserProfileFileUpload(), user.getId(), "profile", user.getHashedUserImage());
+			SessionConfig sessionConfig = new SessionConfig();
+			if(sessionConfig.getCurrentUserId() == null && sessionConfig.getCurrentUserName() == null){
+				logger.error("error while updating user.");
+				throw new DeskAppWebException("error while updating user.");
+			}
+			user.setId(sessionConfig.getCurrentUserId());
+			user.setUserName(sessionConfig.getCurrentUserName());
+			
+			if(!ObjectUtils.isEmpty(user.getUserProfileFileUpload()) && !ObjectUtils.isEmpty(user.getUserName())){
+				user.setHashedUserImage(fileUtilityService.getFileName(user.getUserProfileFileUpload().getOriginalFilename()));
+				fileUtilityService.saveFile(user.getUserProfileFileUpload(), user.getUserName(), "profile", user.getHashedUserImage());
 			}
 		}catch(DeskAppWebException e){
 			logger.info("error occur on uploading profile while user saving.");
@@ -83,17 +123,13 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 		Gson gson = new Gson();
 		String url = ip+port+api;
 		try{
-			Map<String, String> header = new HashMap<String, String>();
+			Map<String, String> header = this.createHeaderInstance();
 			
-			header.put("token", "myToken");
-			
-			Response<List<User>> apiResponse = gson.fromJson(this.sendGET(url+Constants.USER_SAVE_API, header), Response.class);
-			
-			System.out.println("apiResponse = "+new Gson().toJson(apiResponse));
+			Response<List<User>> apiResponse = gson.fromJson(this.sendGET(url+Constants.USER_SAVE_API, header), new TypeToken<Response<List<User>>>(){}.getType());
 			
 			if(apiResponse.getStatus() == 200){
-				List<User> users = gson.fromJson(gson.toJson(apiResponse.getData()), List.class);
-				logger.info("fetched users successfully.");
+				List<User> users = gson.fromJson(gson.toJson(apiResponse.getData()), new TypeToken<List<User>>(){}.getType());
+				
 				return users;
 			}
 		}catch(Exception ee){
@@ -109,24 +145,23 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 		if(ObjectUtils.isEmpty(userName)){
 			return null;
 		}
+		User user = null;
 		try{
-			User user = new User();
+			user = new User();
 			
-			Map<String, String> header = new HashMap<String, String>();
-			header.put("token", "myToken");
+			Map<String, String> header = this.createHeaderInstance();
+			url = String.format(url+Constants.USER_GET_BY_USERNAME_API, userName);
 			
-			Response<User> apiResponse = gson.fromJson(this.sendGET(url+Constants.USER_SAVE_API+user.getUserName(),  header), Response.class); 
-			System.out.println("apiResponse = "+new Gson().toJson(apiResponse));
+			Response<User> apiResponse = gson.fromJson(this.sendGET(url,  header), new TypeToken<Response<User>>(){}.getType()); 
 			
 			if(apiResponse.getStatus() == 200){
 				user = gson.fromJson(gson.toJson(apiResponse.getData()), User.class);
-				logger.info("fetched user by userName successfully.");
 				return user;
 			}
 		}catch(Exception ee){
 			logger.error("error while fetching user by userName.");
 		}
-		return null;
+		return user;
 	}
 
 	@Override
@@ -136,7 +171,7 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 			user = getUserByUserName(user.getUserName());
 			try{
 				if(user != null && user.getIsActive()){
-					logger.info("passed user loggedIn.");
+					
 					return true;
 				}
 			}catch(NullPointerException ee){
@@ -145,54 +180,6 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 			}
 		}
 		logger.info("passed user may be loggedOff.");
-		return false;
-	}
-
-	@Override
-	public User setLoggedIn(User user) throws IOException {
-		
-		String url = ip+port+api;
-		ObjectMapper mapper = new ObjectMapper();
-		Gson gson = new Gson();
-		if(user == null || user.getUserName() == null)
-			return null;
-			
-		try{
-			Map<String, String> header = new HashMap<String, String>();
-
-			Response<User> apiResponse = gson.fromJson(this.sendPOST(url,gson.toJson(user),  header), Response.class); 
-			System.out.println("apiResponse = "+new Gson().toJson(apiResponse));
-			
-			if(apiResponse.getStatus() == 200){
-				user = mapper.readValue(gson.toJson(apiResponse.getData()), User.class);
-				logger.info("fetched user by userName successfully.");
-
-				return user;
-			}
-		}catch(Exception ee){
-			logger.error("error while login user.");
-			ee.printStackTrace();
-		}
-		return user;
-		
-	}
-	
-	@Override
-	public boolean setLoggedOut(User user) throws IOException {
-		try{
-			if(user != null){
-				user = this.getUserByUserName(user.getUserName());
-				if(user != null){
-					user.setIsActive(false);
-					save(user);
-					logger.info("user logOff successfully.");
-					return true;
-				}
-			}
-		}catch(Exception ee){
-			logger.error("error while user logoff.");
-		}
-		logger.info("requested user for logOff not found.");
 		return false;
 	}
 }

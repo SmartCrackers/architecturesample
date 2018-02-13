@@ -16,6 +16,7 @@
 	</properties>
   <dependencies>
     
+    <!-- LOGGER Maven Dependancy -->
     <dependency>
 	    <groupId>org.apache.httpcomponents</groupId>
 	    <artifactId>httpmime</artifactId>

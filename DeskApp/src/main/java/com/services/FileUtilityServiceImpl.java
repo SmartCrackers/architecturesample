@@ -61,7 +61,8 @@ public class FileUtilityServiceImpl implements FileUtilityService {
 	
 	@Override
 	public  String getFileName(String fileName) {
-		logger.info("get hashed multipart file name");
+		logger.info("get hashed multipart file name"+String.format(fileNameFormat, UUID.fromString(UUID.randomUUID().toString()).toString(),
+		        FilenameUtils.getExtension(fileName)));
 		return String.format(fileNameFormat, UUID.fromString(UUID.randomUUID().toString()).toString(),
 	        FilenameUtils.getExtension(fileName));
 	  }

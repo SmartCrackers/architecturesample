@@ -38,13 +38,13 @@
 				<a class="navbar-brand" th:href="@{/auth/logged-in-index}">DeskApp</a>
 			</header>
 			<ul class="list-group">
-				<a class="list-group-item" th:href="@{/user/profile}">Profile</a>
+				<a class="list-group-item" th:href="@{'/user/profile/'+ ${data.USERNAME}}">Profile</a>
 				<a class="list-group-item">Link 2</a>
 				<a class="list-group-item">Link 3</a>
 			</ul>
 		</div>
-		<main class="bmd-layout-content"> <object
-			th:include="${data.path} :: ${data.fragment}" th:remove="tag" /> </main>
+		<main class="bmd-layout-content"> 
+		<object	th:include="${data.path} :: ${data.fragment}" th:remove="tag" /> </main>
 	</div>
 </body>
 <object th:if="${data.jsFragment != null}"

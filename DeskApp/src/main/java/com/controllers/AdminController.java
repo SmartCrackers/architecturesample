@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.Constants;
 import com.Response;
 import com.ThymeleafUtility;
+import com.config.SessionConfig;
 import com.google.gson.Gson;
 import com.models.User;
 import com.services.UserService;
@@ -29,7 +30,6 @@ import com.services.UserService;
 public class AdminController {
 
 	final static Logger LOGGER = Logger.getLogger(AdminController.class);
-	
 	final static String LOGIN_PAGE = "admin/login";
 	final static String VIEW ="app/logged-in-welcome";
 	
@@ -46,8 +46,8 @@ public class AdminController {
 	@CrossOrigin
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public ResponseEntity<Response<User>> loginUser(@RequestBody User user, Model model){
-		Gson g = new Gson();
-		System.out.println(g.toJson(user));
+		
+		new SessionConfig("5a827196848e3cc3bb50c2cb","ritesh9984","token");
 		
 		return new ResponseEntity<Response<User>>(new Response<User>(
 				HttpStatus.OK.value(), "User loggedIn successfully.", user), HttpStatus.OK);

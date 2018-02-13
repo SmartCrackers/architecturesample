@@ -30,7 +30,25 @@ public class User implements Serializable {
 	
 	private String password;
 	
+	private String designation;
+	
+	private String companyName;
+	
+	private Integer handledProjects;
+	
+	private String about;
+	
+	private Long mob;
+	
+	private String state;
+	
 	private String email;
+	
+	private String recoveryEmail;
+	
+	private String address;
+	
+	private Integer pincode;
 	
 	private String hashedUserImage;
 	

@@ -24,11 +24,29 @@ public class User implements Serializable {
 	
 	private String userName;
 	
+	private String designation;
+	
 	private String password;
+	
+	private String about;
 	
 	private String email;
 	
+	private String companyName;
+	
+	private Integer handledProjects;
+	
 	private String hashedUserImage;
+	
+	private Long mob;
+	
+	private String state;
+	
+	private String recoveryEmail;
+	
+	private String address;
+	
+	private Integer pincode;
 	
 	private Boolean isActive;
 	

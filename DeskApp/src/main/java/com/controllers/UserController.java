@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,9 +41,11 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = { "/profile/{userName}" }, method = RequestMethod.GET)
-	public ModelAndView getProfileForm() throws IOException {
+	public ModelAndView getProfileForm(@PathVariable ("userName") String userName) throws IOException {
+		Gson g = new Gson();
+		
 		Map<String, Object> data = ThymeleafUtility.getViewData(VIEW,"profileUpdateFragment","userProfileJsFragment");
-		data.put("content", "Woowwwww"); 
+		data.put("user", userService.getUserByUserName(userName));
 		LOGGER.info("Accessed user profile update form.");
 		return new ModelAndView(Constants.BASE_LAYOUT_PAGE, "data", data);
 	}
@@ -51,10 +54,8 @@ public class UserController {
 	public ModelAndView saveProfile(@ModelAttribute("userProfile") User user, BindingResult result,
 			HttpServletRequest request) throws IOException {
 		
-		userService.save(user);
-		
 		Map<String, Object> data = ThymeleafUtility.getViewData(VIEW,"profileUpdateFragment","userProfileJsFragment");
-		data.put("content", "Woowwwww"); 
+		data.put("user", userService.update(user));
 		LOGGER.info("User profile updated.");
 		return new ModelAndView(Constants.BASE_LAYOUT_PAGE, "data", data);
 	}

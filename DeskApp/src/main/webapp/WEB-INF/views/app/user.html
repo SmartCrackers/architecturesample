@@ -4,11 +4,11 @@
 			<div class="row">
 				<div class="col-sm-4 h250-profile-pic-btn">
 					<div class="form-group profile-pic-position">
-						<div id="userProfilePreview" class="profile-pic box-shadow-2x"
-							style="background-image: url(../resources/img/smile.png);"></div>
+						<div id="userProfilePreview" class="userProfilePreview-img profile-pic box-shadow-2x"
+							></div>
 						<input type="file" id="userProfileFileUpload" name="userProfileFileUpload"
 							accept="image/*" capture />
-					</div>
+					</div><!-- /DeskApp/resources/img/smile.png -->
 					<div class="form-group">
 						<div class="row">
 							<div class="col-sm-4"></div>
@@ -22,22 +22,21 @@
 				</div>
 				<div class="col-sm-4">
 					<div class="form-group">
-						<input type="hidden" id="id" name="id" />
 						<label for="firstName" class="bmd-label-floating">First Name</label> 
 							<input type="text" class="form-control"
-							id="firstName" name="firstName" /> 
+							id="firstName" name="firstName" th:value="${data.user['firstName']}" /> 
 							<span class="bmd-help">Please Enter your First Name</span>
 					</div>
 					<div class="form-group">
 						<label for="userName" class="bmd-label-floating">User Name</label>
 						 <input type="text" class="form-control"
-							id="userName" name="userName" /> 
+							id="userName" name="userName" th:value="${data.user['userName']}" /> 
 							<span class="bmd-help">Please Enter your UserName, which will be shown in you web site.</span>
 					</div>
 					<div class="form-group">
 						<label for="Designation" class="bmd-label-floating">Designation</label>
 						 <input type="text" class="form-control"
-							id="designation" name="designation" /> 
+							id="designation" name="designation" th:value="${data.user['designation']}" /> 
 							<span class="bmd-help">Please Enter your Designation in your current company.</span>
 					</div>
 				</div>
@@ -45,19 +44,19 @@
 					<div class="form-group">
 						<label for="lastName" class="bmd-label-floating">Last Name</label>
 						<input type="text" class="form-control"
-							id="lastName" name="lastName" />
+							id="lastName" name="lastName" th:value="${data.user['lastName']}" />
 						<span class="bmd-help">Please Enter your First Name</span>
 					</div>
 					<div class="form-group">
 						<label for="exampleInputPassword1" class="bmd-label-floating">Company Name</label>
 						<input type="text" class="form-control"
-							id="companyName" name="companyName" />
+							id="companyName" name="companyName" th:value="${data.user['companyName']}" />
 							<span class="bmd-help">Please Enter your current Company Name ,Where you are working.</span>
 					</div>
 					<div class="form-group">
 						<label for="handledProjects" class="bmd-label-floating">No of Project Done</label>
 						<input type="number" class="form-control"
-							id="handledProjects" name="handledProjects" />
+							id="handledProjects" name="handledProjects" th:value="${data.user['handledProjects']}" />
 							<span class="bmd-help">Please Enter number of projects which you have done including current project.</span>
 					</div>
 				</div>
@@ -67,26 +66,26 @@
 					<div class="form-group">
 						<label for="exampleTextarea" class="bmd-label-floating">About
 							You !</label>
-						<textarea class="form-control" id="exampleTextarea" rows="10"></textarea>
+						<textarea class="form-control" id="exampleTextarea" name="about" rows="10" th:inline="text">[[${data.user.about}]]</textarea>
 					</div>
 				</div>
 				<div class="col-sm-4">
 					<div class="form-group">
 						<label for="email" class="bmd-label-floating">Email</label>
 						<input type="email" class="form-control"
-							id="email" name="email" />
+							id="email" name="email" th:value="${data.user['email']}" />
 							<span class="bmd-help">Please Enter you email address.</span>
 					</div>
 					<div class="form-group">
 						<label for="mob" class="bmd-label-floating">Contact No</label>
 						<input type="number" class="form-control"
-							id="mob" name="mob" />
+							id="mob" name="mob" th:value="${data.user['mob']}" />
 							<span class="bmd-help">Please Enter you 10 digits Contact No.</span>
 					</div>
 					<div class="form-group">
 						<label for="state" class="bmd-label-floating">State</label>
 						<input type="text" class="form-control"
-							id="state" name="state" />
+							id="state" name="state" th:value="${data.user['state']}" />
 							<span class="bmd-help">Please Enter you State.</span>
 					</div>
 				</div>
@@ -94,19 +93,19 @@
 					<div class="form-group">
 						<label for="recoveryEmail" class="bmd-label-floating">Recovery Email</label>
 						<input type="email" class="form-control"
-							id="recoveryEmail" name="recoveryEmail" />
+							id="recoveryEmail" name="recoveryEmail" th:value="${data.user['recoveryEmail']}" />
 							<span class="bmd-help">Please Enter email for recover your account if your current email is not working.</span>
 					</div>
 					<div class="form-group">
 						<label for="address" class="bmd-label-floating">Address</label>
 						<input type="text" class="form-control"
-							id="address" name="address" />
+							id="address" name="address" th:value="${data.user['address']}" />
 							<span class="bmd-help">Please Enter you Full Address.</span>
 					</div>
 					<div class="form-group">
 						<label for="pincode" class="bmd-label-floating">Pin Code</label>
 						<input type="number" class="form-control"
-							id="pincode" name="pincode" />
+							id="pincode" name="pincode" th:value="${data.user['pincode']}" />
 							<span class="bmd-help">Please Enter you Pin Code.</span>
 					</div>
 				</div>
@@ -116,4 +115,28 @@
 			<button type="submit" class="btn btn-primary btn-raised mb30">Submit</button>
 		</form>
 	</div>
+	
+<script th:inline="javascript">
+/*<![CDATA[*/
+    var hashedUserImage = /*[[${data.user.hashedUserImage}]]*/ 'smile.png';
+    if(hashedUserImage == null){
+    	hashedUserImage = 'smile.png';
+    }
+    console.log(hashedUserImage);
+/*]]>*/
+ 
+$("#userProfilePreview").css({
+			"background-image": "url(/DeskApp/resources/img/"+hashedUserImage+")" 
+});
+
+$(document).ready(function(){
+
+	$("#cancelPicChange").on("click", function(){
+		$("#userProfilePreview").css({
+			"background-image": "url(/DeskApp/resources/img/"+hashedUserImage+")" 
+		});
+		$(".profile-pic-add-remove-btn").hide();
+	});
+});
+</script>
 </div>
