@@ -49,6 +49,7 @@ public class FileUtilityServiceImpl implements FileUtilityService {
 	
 	@Override
 	public  String deleteFile(String folderId, String folderType, String hashedFileName) {
+		
 	    String assetLocation = String.format(locationFormat, mediaLocation, folderId);
 	    String fileLocation = String.format(locationFormat, assetLocation, folderType);
 	    File fileToBeDeleted = new File(fileLocation += hashedFileName);

@@ -118,22 +118,24 @@
 	
 <script th:inline="javascript">
 /*<![CDATA[*/
-    var hashedUserImage = /*[[${data.user.hashedUserImage}]]*/ 'smile.png';
-    if(hashedUserImage == null){
-    	hashedUserImage = 'smile.png';
+    var userData = /*[[${data.user}]]*/ 'smile.png';
+    var dirLocation;
+    
+    if(userData.hashedUserImage == null){
+    	userData.hashedUserImage = 'smile.png';
     }
-    console.log(hashedUserImage);
+    console.log(userData.hashedUserImage);
 /*]]>*/
  
 $("#userProfilePreview").css({
-			"background-image": "url(/DeskApp/resources/img/"+hashedUserImage+")" 
+			"background-image": "url(http://localhost/images/"+userData.userName+"/profile/"+userData.hashedUserImage+")" 
 });
 
 $(document).ready(function(){
 
 	$("#cancelPicChange").on("click", function(){
 		$("#userProfilePreview").css({
-			"background-image": "url(/DeskApp/resources/img/"+hashedUserImage+")" 
+			"background-image": "url(http://localhost/images/"+userData.userName+"/profile/"+userData.hashedUserImage+")"
 		});
 		$(".profile-pic-add-remove-btn").hide();
 	});
