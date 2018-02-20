@@ -68,16 +68,19 @@ public class BaseFilter implements Filter {
 			this.context.log(request.getRemoteAddr() + "::Request Params on API::{" + name + "=" + value + "}");
 		}
 
-		String token = req.getHeader("X-AUTH-HEADER");
+		String token = req.getHeader(Constants.HEADER_KEY);
+		String requestType = req.getHeader(Constants.REQUEST_TYPE_KEY);
+		
 		try {
-			
-			if (!isIgnoreUrlForAuth(request)) {
-				if(tokenHandler.isTokenExpired(token) == Constants.EXPIRED_TOKEN){
-					writeExpiredTokenToResponse(response);
-					return;
-				} else if (tokenHandler.isTokenExpired(token) == Constants.BAD_TOKEN) {
-					writeBadTokenToResponse(response);
-					return;
+			if(Constants.REQUEST_TYPE_APP.equals(requestType)){
+				if (!isIgnoreUrlForAuth(request)) {
+					if(tokenHandler.isTokenExpired(token) == Constants.EXPIRED_TOKEN){
+						writeExpiredTokenToResponse(response);
+						return;
+					} else if (tokenHandler.isTokenExpired(token) == Constants.BAD_TOKEN) {
+						writeBadTokenToResponse(response);
+						return;
+					}
 				}
 			}
 		} catch (Exception e) {
