@@ -72,23 +72,61 @@
 		<div class="col-sm-9">
 
 			<ul class="nav nav-tabs" id="myTab">
-				<li class="active"><a href="#home" data-toggle="tab">Home</a></li>
-				<li><a href="#messages" data-toggle="tab">Messages</a></li>
-				<li><a href="#settings" data-toggle="tab">Settings</a></li>
+				<li class="active"><a href="#info" data-toggle="tab">Info</a></li>
+				<li><a href="#profession" data-toggle="tab">Profession</a></li>
+				<li><a href="#education" data-toggle="tab">Education</a></li>
 			</ul>
 
 			<div class="tab-content">
-				<div class="tab-pane active" id="home">
-
+				<div class="tab-pane active" id="info">
 					<hr>
-					<div class="container">
-						<h1>home works</h1>
-						<!-- TODO -->
+					
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="row">
+								<ul class="list-group">
+									<li class="list-group-item text-muted">
+										<i class="fa fa-user fa-1x"></i>
+										<span th:text="${data.user['firstName'] +' '+ data.user['lastName']}"></span> 
+									</li>
+									<li class="list-group-item text-muted">
+										<i class="fa fa-map-marker fa-1x"></i>
+										<span th:text="${data.user['address']+', '+ data.user['pincode']}">RITESH SINGH</span> 
+									</li>
+									<li class="list-group-item text-muted" th:if="${data.user['mob'] != null}">
+										<i class="fa fa-mobile fa-1x"></i>
+										<span th:text="${data.user['mob']}">RITESH SINGH</span> 
+									</li>
+									<li class="list-group-item text-muted" th:if="${data.user['email'] != null}">
+										<i class="fa fa-envelope fa-1x"></i>
+										<span th:text="${data.user['email']}">RITESH SINGH</span> 
+									</li>
+									<li class="list-group-item text-muted" th:if="${data.user['stackoverflow'] != null}">
+										<i class="fa fa-stack-overflow fa-1x"></i>
+										<a target="_blank" th:href="${data.user['stackoverflow']}">Reach out on StackOverFlow</a> 
+									</li>
+									<li class="list-group-item text-muted" th:if="${data.user['linkedIn'] != null}">
+										<i class="fa fa-linkedin fa-1x"></i>
+										<a target="_blank" th:href="${data.user['linkedIn']}">Reach out on LinkedIn</a> 
+									</li>
+									<li class="list-group-item text-muted" th:if="${data.user['github'] != null}">
+										<i class="fa fa-github fa-1x"></i>
+										<a target="_blank" th:href="${data.user['github']}">Reach out on GitHub</a> 
+									</li>
+									<li class="list-group-item text-muted" th:if="${data.user['twitter'] != null}">
+										<i class="fa fa-twitter fa-1x"></i>
+										<a target="_blank" th:href="${data.user['twitter']}">Reach out on Twitter</a> 
+									</li>
+								</ul>										
+							</div>
+						</div>
+						<div class="col-sm-8 para boi"></div>
 					</div>
-
+					<!-- TODO -->
+					
 				</div>
 				<!--/tab-pane-->
-				<div class="tab-pane" id="messages">
+				<div class="tab-pane" id="profession">
 					<hr>
 					<div class="container">
 						<h1>messages works</h1>
@@ -96,8 +134,7 @@
 					</div>
 				</div>
 				<!--/tab-pane-->
-				<div class="tab-pane" id="settings">
-
+				<div class="tab-pane" id="education">
 					<hr>
 					<div class="container">
 						<h1>settings works</h1>
@@ -139,7 +176,19 @@ $(document).ready(function(){
 		});
 		$(".profile-pic-add-remove-btn").hide();
 	});
+	
+	if(userData.about != null){
+		var aboutPara = (userData.about).split(".");
+		var htmlPara = "";
+		$.each(aboutPara, function( index, value ) {
+			htmlPara += "<p>"+ value + "</p>"; 
+		});
+		$(".boi").html(htmlPara);
+	}else{
+		$(".boi").html("<p></p>");
+	}
 });
+
 </script>
 
 </body>

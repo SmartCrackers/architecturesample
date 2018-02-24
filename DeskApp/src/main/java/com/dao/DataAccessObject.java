@@ -158,11 +158,7 @@ public class DataAccessObject {
 	protected Map<String, String> createHeaderInstance(){
 		Map<String, String> header = new HashMap<String, String>();
 		header.put(Constants.HEADER_KEY, "myToken");
-		header.put(Constants.REQUEST_TYPE_KEY, Constants.REQUEST_TYPE_APP);
 		return header;
 	}
 	
-	protected void changeRequestType(Map<String, String> header,String requestType){
-		header.put(Constants.REQUEST_TYPE_KEY, requestType);
-	}
 }

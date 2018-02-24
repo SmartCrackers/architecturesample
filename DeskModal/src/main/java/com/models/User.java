@@ -2,6 +2,8 @@ package com.models;
 
 import java.io.Serializable;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.modelUtility.EditableInfo;
 
@@ -12,9 +14,10 @@ import lombok.Data;
  *
  */
 @Data
+@Document(collection = "user")
 public class User implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7746218756589213487L;
 	
 	private String id;
 	
@@ -31,6 +34,14 @@ public class User implements Serializable {
 	private String about;
 	
 	private String email;
+	
+	private String twitter;
+	
+	private String github;
+	
+	private String stackoverflow;
+	
+	private String linkedIn;
 	
 	private String companyName;
 	

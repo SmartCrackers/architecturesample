@@ -15,7 +15,7 @@ $(document).ready(function(){
 				"background-image": "url("+event.target.result+")" 
 			});
 		};
-		
+		$("#hashedUserImage").val("upload");
 		$(".profile-pic-add-remove-btn").show();
 	});
 	

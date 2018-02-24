@@ -40,7 +40,6 @@ public class WebServiceImpl extends DataAccessObject implements WebService {
 			user = new User();
 			
 			Map<String, String> header = this.createHeaderInstance();
-			this.changeRequestType(header, Constants.REQUEST_TYPE_WEB);
 			
 			url = String.format(url+Constants.WEB_USER_GET_BY_USERNAME_API, userName);
 			

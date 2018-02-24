@@ -4,6 +4,7 @@ import java.net.UnknownHostException;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.Response;
+import com.models.User;
 import com.models.UserLog;
 import com.services.AuthService;
 
@@ -32,19 +34,21 @@ import com.services.AuthService;
 @RequestMapping(value = "auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthController {
 
+	final static Logger LOGGER = Logger.getLogger(AuthController.class);
+	
 	@Autowired
 	@Qualifier("authService")
 	private AuthService authService;
 	
 	@CrossOrigin
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<Response> saveBookAccount(
-			@RequestBody UserLog userCredential,
+	public @ResponseBody ResponseEntity<Response<UserLog>> saveBookAccount(
+			@RequestBody User userCredential,
 			HttpServletResponse response)throws UnknownHostException {
 
-		return new ResponseEntity<Response>(
-				new Response(200, "Login successfully.",authService.login(userCredential)),
-				HttpStatus.OK);
+		LOGGER.info("user saved api accessed.");
+		return new ResponseEntity<Response<UserLog>>(new Response<UserLog>(
+                HttpStatus.OK.value(), "Login successfully.",authService.login(userCredential)), HttpStatus.OK);
 	}
 	
 	@CrossOrigin

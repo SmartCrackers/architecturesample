@@ -23,6 +23,7 @@
 				<div class="col-sm-4">
 					<div class="form-group">
 						<label for="firstName" class="bmd-label-floating">First Name</label> 
+							<input type="hidden" id="hashedUserImage" name="hashedUserImage" th:value="${data.user['hashedUserImage']}" />
 							<input type="text" class="form-control"
 							id="firstName" name="firstName" th:value="${data.user['firstName']}" /> 
 							<span class="bmd-help">Please Enter your First Name</span>
@@ -88,6 +89,18 @@
 							id="state" name="state" th:value="${data.user['state']}" />
 							<span class="bmd-help">Please Enter you State.</span>
 					</div>
+					<div class="form-group">
+						<label for="stackoverflow-link" class="bmd-label-floating">Stackoverflow Link</label>
+						<input type="text" class="form-control"
+							id="stackoverflow" name="stackoverflow" th:value="${data.user['stackoverflow']}" />
+							<span class="bmd-help">Please Enter your stackoverflow link.</span>
+					</div>
+					<div class="form-group">
+						<label for="github-link" class="bmd-label-floating">GitHub link</label>
+						<input type="text" class="form-control"
+							id="github" name="github" th:value="${data.user['github']}" />
+							<span class="bmd-help">Please Enter your github link.</span>
+					</div>
 				</div>
 				<div class="col-sm-4">
 					<div class="form-group">
@@ -100,13 +113,25 @@
 						<label for="address" class="bmd-label-floating">Address</label>
 						<input type="text" class="form-control"
 							id="address" name="address" th:value="${data.user['address']}" />
-							<span class="bmd-help">Please Enter you Full Address.</span>
+							<span class="bmd-help">Please Enter your Full Address.</span>
 					</div>
 					<div class="form-group">
 						<label for="pincode" class="bmd-label-floating">Pin Code</label>
 						<input type="number" class="form-control"
 							id="pincode" name="pincode" th:value="${data.user['pincode']}" />
-							<span class="bmd-help">Please Enter you Pin Code.</span>
+							<span class="bmd-help">Please Enter your Pin Code.</span>
+					</div>
+					<div class="form-group">
+						<label for="linkedIn-link" class="bmd-label-floating">Linked Link</label>
+						<input type="text" class="form-control"
+							id="linkedIn" name="linkedIn" th:value="${data.user['linkedIn']}" />
+							<span class="bmd-help">Please Enter your linked link.</span>
+					</div>
+					<div class="form-group">
+						<label for="twitter-link" class="bmd-label-floating">Twitter Link</label>
+						<input type="text" class="form-control"
+							id="twitter" name="twitter" th:value="${data.user['twitter']}" />
+							<span class="bmd-help">Please Enter your twitter link.</span>
 					</div>
 				</div>
 			</div>
@@ -138,6 +163,7 @@ $(document).ready(function(){
 			"background-image": "url(http://localhost/images/"+userData.userName+"/profile/"+userData.hashedUserImage+")"
 		});
 		$(".profile-pic-add-remove-btn").hide();
+		$("#hashedUserImage").val(userData.hashedUserImage);
 	});
 });
 </script>

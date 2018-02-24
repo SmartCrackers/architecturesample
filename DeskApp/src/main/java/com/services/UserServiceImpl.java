@@ -20,6 +20,7 @@ import com.dao.DataAccessObject;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.models.User;
+import com.models.UserLog;
 
 @Service("userService")
 public class UserServiceImpl extends DataAccessObject implements UserService {
@@ -66,6 +67,31 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 	}
 
 	@Override
+	public UserLog getLogin(User user){
+		Gson gson = new Gson();
+		String url = ip+port+api;
+		String data = new Gson().toJson(user);
+		UserLog userLog = new UserLog();
+		Map<String, String> header = this.createHeaderInstance();
+		
+		try{
+			this.validateSignUpUser(user);
+			Response<UserLog> apiResponse = gson.fromJson(this.sendPOST(url+Constants.USER_LOGIN_API, data, header),new TypeToken<Response<UserLog>>(){}.getType());
+			
+			if(apiResponse.getStatus() != 200){
+				logger.error("User Login fail.");
+			}else if(apiResponse.getStatus() == 200){
+				userLog = apiResponse.getData();
+			}
+			
+			return userLog;
+		}catch(DeskAppWebException  ee){
+			logger.error("error while user login.");
+			throw new DeskAppWebException("error while user login.", ee);
+		}
+	}
+	
+	@Override
 	public User update(User user) {
 		Gson gson = new Gson();
 		String url = ip+port+api;
@@ -92,6 +118,43 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 		}
 	}
 	
+	@Override
+	public User saveSignUp(User user) {
+		Gson gson = new Gson();
+		String url = ip+port+api;
+		String data = new Gson().toJson(user);
+		
+		Map<String, String> header = this.createHeaderInstance();
+		
+		try{
+			this.validateSignUpUser(user);
+			Response<User> apiResponse = gson.fromJson(this.sendPOST(url+Constants.USER_SAVE_API, data, header),new TypeToken<Response<User>>(){}.getType());
+			
+			if(apiResponse.getStatus() != 200){
+				fileUtilityService.deleteFile(user.getId(), "profile", user.getHashedUserImage());
+				logger.error("uploaded file deleted cause for api not persist user.");
+			}else if(apiResponse.getStatus() == 200){
+				user = apiResponse.getData();
+			}
+			
+			return user;
+		}catch(DeskAppWebException  ee){
+			logger.error("error while saving user.");
+			throw new DeskAppWebException("error while saving user.", ee);
+		}
+	}
+	
+	private void validateSignUpUser(User user){
+		if(ObjectUtils.isEmpty(user)){
+			logger.info("user canot be null occur on web validation while saving.");
+			throw new DeskAppWebException("user cannot empty while saving");
+		}
+		if(ObjectUtils.isEmpty(user.getUserName()) && ObjectUtils.isEmpty(user.getEmail())){
+			logger.info("username and email canot be null occur on web validation while saving.");
+			throw new DeskAppWebException("username and email cannot empty while saving");
+		}
+	}
+	
 	private void validateUser(User user){
 		
 		if(ObjectUtils.isEmpty(user)){
@@ -108,10 +171,18 @@ public class UserServiceImpl extends DataAccessObject implements UserService {
 			user.setId(sessionConfig.getCurrentUserId());
 			user.setUserName(sessionConfig.getCurrentUserName());
 			
-			if(!ObjectUtils.isEmpty(user.getUserProfileFileUpload()) && !ObjectUtils.isEmpty(user.getUserName())){
-				user.setHashedUserImage(fileUtilityService.getFileName(user.getUserProfileFileUpload().getOriginalFilename()));
-				fileUtilityService.saveFile(user.getUserProfileFileUpload(), user.getUserName(), "profile", user.getHashedUserImage());
+			User existingUser = this.getUserByUserName(user.getUserName());
+			if(!ObjectUtils.isEmpty(existingUser) && 
+			   (ObjectUtils.isEmpty(existingUser.getHashedUserImage()) ||
+			   !existingUser.getHashedUserImage().equals(user.getHashedUserImage()))){
+					if(!ObjectUtils.isEmpty(user.getUserProfileFileUpload()) &&
+					   !ObjectUtils.isEmpty(user.getUserName())){
+						
+						user.setHashedUserImage(fileUtilityService.getFileName(user.getUserProfileFileUpload().getOriginalFilename()));
+						fileUtilityService.saveFile(user.getUserProfileFileUpload(), user.getUserName(), "profile", user.getHashedUserImage());
+					}
 			}
+			
 		}catch(DeskAppWebException e){
 			logger.info("error occur on uploading profile while user saving.");
 			throw new DeskAppWebException("user cannot empty while saving",e);

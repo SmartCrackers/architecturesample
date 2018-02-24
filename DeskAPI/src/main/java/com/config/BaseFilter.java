@@ -3,6 +3,8 @@ package com.config;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -69,18 +71,15 @@ public class BaseFilter implements Filter {
 		}
 
 		String token = req.getHeader(Constants.HEADER_KEY);
-		String requestType = req.getHeader(Constants.REQUEST_TYPE_KEY);
 		
 		try {
-			if(Constants.REQUEST_TYPE_APP.equals(requestType)){
-				if (!isIgnoreUrlForAuth(request)) {
-					if(tokenHandler.isTokenExpired(token) == Constants.EXPIRED_TOKEN){
-						writeExpiredTokenToResponse(response);
-						return;
-					} else if (tokenHandler.isTokenExpired(token) == Constants.BAD_TOKEN) {
-						writeBadTokenToResponse(response);
-						return;
-					}
+			if (!isIgnoreUrlForAuth(request)) {
+				if(tokenHandler.isTokenExpired(token) == Constants.EXPIRED_TOKEN){
+					writeExpiredTokenToResponse(response);
+					return;
+				} else if (tokenHandler.isTokenExpired(token) == Constants.BAD_TOKEN) {
+					writeBadTokenToResponse(response);
+					return;
 				}
 			}
 		} catch (Exception e) {
@@ -180,10 +179,16 @@ public class BaseFilter implements Filter {
 			 * @return true if requestedAppUrl matched in ignoreUrl list
 			 */
 			protected boolean getIgnoreStatus() {
-				if (IgnoreAuthUrls.URLS.contains(getRequestedUrl()))
-					return true;
-				else
-					return false;
+				
+				String requestedUrl = getRequestedUrl();
+				Boolean flag = false;
+				for(String urlRegex : (IgnoreAuthUrls.URLS)){
+					if(requestedUrl.matches(urlRegex)){
+						flag = true;
+					}
+				}
+				return flag;
+				
 			}
 		}
 		return new RequestUrl().getIgnoreStatus();

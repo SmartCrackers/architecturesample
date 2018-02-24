@@ -2,12 +2,11 @@ package com;
 
 public class Constants {
 
-	public final static String REQUEST_TYPE_WEB = "web";
-	public final static String REQUEST_TYPE_APP = "app";
 	public final static String HEADER_KEY = "X-AUTH-HEADER";
-	public final static String REQUEST_TYPE_KEY = "X-REQUEST-TYPE";
 	
 	public final static String BASE_LAYOUT_PAGE = "app/home";
+	
+	public static final String USER_LOGIN_API = "auth/login";
 	
 	public static final String USER_SAVE_API = "user/";
 	public static final String USER_UPDATE_API = "user/update";

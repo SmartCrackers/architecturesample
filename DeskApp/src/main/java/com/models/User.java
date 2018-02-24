@@ -18,7 +18,7 @@ import lombok.Data;
 @Data
 public class User implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7746218756589213487L;
 	
 	private String id;
 	
@@ -47,6 +47,14 @@ public class User implements Serializable {
 	private String recoveryEmail;
 	
 	private String address;
+	
+	private String twitter;
+	
+	private String github;
+	
+	private String stackoverflow;
+	
+	private String linkedIn;
 	
 	private Integer pincode;
 	

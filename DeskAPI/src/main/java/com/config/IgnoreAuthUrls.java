@@ -17,7 +17,8 @@ public class IgnoreAuthUrls {
 
 	public static final List<String> URLS = Stream.of(
 										"/"+GET,
-										"/user/"+GET,
+										"/user/*[a-zA-Z0-9]*"+GET,   
+										"/web/*[A-Za-z0-9-*/%]*"+GET, /* All url allow which starts from web for only GET method  */
 										"/user/"+POST,
 										"/auth/login"+POST
 										).collect(Collectors.toList());

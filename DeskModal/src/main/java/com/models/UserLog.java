@@ -9,11 +9,19 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.Constants;
 import com.HelperUtility;
 import com.exception.BookException;
+import com.modelUtility.EditableInfo;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author RITESH SINGH
  *
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Document(collection = "users_log")
 public class UserLog implements Serializable {
 	
@@ -21,9 +29,9 @@ public class UserLog implements Serializable {
 
 	@Id
 	private String id;
+	private String userId;
 	private String userName;
 	private String email;
-	private String password;
 	private String token;
 	private Boolean isExpired;
 	
@@ -52,74 +60,6 @@ public class UserLog implements Serializable {
 		this.userName = user.getUserName();
 		this.email = user.getEmail();
 		this.token = HelperUtility.getToken(this.userName);
-	}
-	
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-
-	public Boolean getIsExpired() {
-		return isExpired;
-	}
-
-	public void setIsExpired(Boolean isExpired) {
-		this.isExpired = isExpired;
-	}
-
-	public long getCreatedAt() {
-		return createdAt;
-	}
-
-	public long getTokenLife() {
-		return tokenLife;
-	}
-
-	public long getExpiredAt() {
-		return expiredAt;
-	}
-
-	public int getExpiredType() {
-		return expiredType;
-	}
-
-	public void setExpiredType(int expiredType) {
-		this.expiredType = expiredType;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 	
 	public int tokenStatus(){

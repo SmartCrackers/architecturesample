@@ -5,7 +5,6 @@ public class Constants {
 	public final static String REQUEST_TYPE_WEB = "web";
 	public final static String REQUEST_TYPE_APP = "app";
 	public final static String HEADER_KEY = "X-AUTH-HEADER";
-	public final static String REQUEST_TYPE_KEY = "X-REQUEST-TYPE";
 	
 	public static final long TOKEN_LIFE = 1000*60*3;
 	

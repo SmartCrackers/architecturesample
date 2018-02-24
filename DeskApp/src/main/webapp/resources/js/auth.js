@@ -39,7 +39,7 @@ $(document).ready(function(){
 	 
 	 $('#loginBtn').on('click', function () {
 		 
-		 var loginCredintial = { 'email' : $('#loginEmail').val() , 'password' : $('#loginPassword').val() };
+		 var loginCredintial = { 'userName' : $('#loginUserName').val() , 'password' : $('#loginPassword').val() };
 		 
 		 console.log(JSON.stringify(loginCredintial));
 		 

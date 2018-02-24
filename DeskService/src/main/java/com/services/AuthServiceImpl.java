@@ -27,7 +27,7 @@ public class AuthServiceImpl implements AuthService {
 	private UserLogRepository userLogRepository;
 	
 	@Override
-	public UserLog login(UserLog userCredential) {
+	public UserLog login(User userCredential) {
 		
 		validateUserCredentialForLogin(userCredential);
 		UserLog userLog = null;
@@ -47,7 +47,7 @@ public class AuthServiceImpl implements AuthService {
 		}
 	}
 	
-	private void validateUserCredentialForLogin(UserLog userCredential){
+	private void validateUserCredentialForLogin(User userCredential){
 		try{
 			if(userCredential.getUserName()==null || userCredential.getPassword()==null)
 				throw new BookException("Not Valid UserCredential");

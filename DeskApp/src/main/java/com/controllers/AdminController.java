@@ -22,6 +22,7 @@ import com.ThymeleafUtility;
 import com.config.SessionConfig;
 import com.google.gson.Gson;
 import com.models.User;
+import com.models.UserLog;
 import com.services.UserService;
 
 @Controller
@@ -45,12 +46,13 @@ public class AdminController {
 
 	@CrossOrigin
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public ResponseEntity<Response<User>> loginUser(@RequestBody User user, Model model){
+	public ResponseEntity<Response<UserLog>> loginUser(@RequestBody User user, Model model){
 		
-		new SessionConfig("5a827196848e3cc3bb50c2cb","ritesh9984","token");
+		UserLog userLog = userService.getLogin(user);
+		new SessionConfig(userLog.getUserId(),userLog.getUserName(),userLog.getToken());
 		
-		return new ResponseEntity<Response<User>>(new Response<User>(
-				HttpStatus.OK.value(), "User loggedIn successfully.", user), HttpStatus.OK);
+		return new ResponseEntity<Response<UserLog>>(new Response<UserLog>(
+				HttpStatus.OK.value(), "User loggedIn successfully.", userLog), HttpStatus.OK);
 	}
 	
 	@CrossOrigin
@@ -58,7 +60,7 @@ public class AdminController {
 	public ResponseEntity<Response<User>> createUser(@RequestBody User user, Model model){
 		Gson g = new Gson();
 		System.out.println(g.toJson(user));
-		userService.save(user);
+		userService.saveSignUp(user);
 		
 		return new ResponseEntity<Response<User>>(new Response<User>(
 				HttpStatus.OK.value(), "User data saved successfully.",  user), HttpStatus.OK);

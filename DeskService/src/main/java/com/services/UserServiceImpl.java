@@ -169,6 +169,19 @@ public class UserServiceImpl implements UserService {
 			if(!StringUtils.isEmpty(user.getAbout())){
 				existingUser.setAbout(user.getAbout());
 			}
+			if(!StringUtils.isEmpty(user.getTwitter())){
+				existingUser.setTwitter(user.getTwitter());
+			}
+			
+			if(!StringUtils.isEmpty(user.getStackoverflow())){
+				existingUser.setStackoverflow(user.getStackoverflow());
+			}
+			if(!StringUtils.isEmpty(user.getGithub())){
+				existingUser.setGithub(user.getGithub());
+			}
+			if(!StringUtils.isEmpty(user.getLinkedIn())){
+				existingUser.setLinkedIn(user.getLinkedIn());
+			}
 			
 			EditableInfo editableInfo = existingUser.getEditableInfo();
 			editableInfo.setUpdatedBy("username");
