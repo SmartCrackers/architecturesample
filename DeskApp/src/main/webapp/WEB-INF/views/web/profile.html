@@ -30,19 +30,7 @@
 					2.13.2014</li>
 				<li class="list-group-item text-right"><span class="pull-left"><strong>Last
 							seen</strong></span> Yesterday</li>
-				<li class="list-group-item text-right"><span class="pull-left"><strong>Real
-							name</strong></span> Joseph Doe</li>
-
 			</ul>
-
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					Website <i class="fa fa-link fa-1x"></i>
-				</div>
-				<div class="panel-body">
-					<a href="http://bootnipets.com">bootnipets.com</a>
-				</div>
-			</div>
 
 			<ul class="list-group">
 				<li class="list-group-item text-muted">Activity <i
@@ -56,17 +44,7 @@
 				<li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span>
 					78</li>
 			</ul>
-
-			<div class="panel panel-default">
-				<div class="panel-heading">Social Media</div>
-				<div class="panel-body">
-					<i class="fa fa-facebook fa-2x"></i> <i class="fa fa-github fa-2x"></i>
-					<i class="fa fa-twitter fa-2x"></i> <i
-						class="fa fa-pinterest fa-2x"></i> <i
-						class="fa fa-google-plus fa-2x"></i>
-				</div>
-			</div>
-
+			
 		</div>
 		<!--/col-3-->
 		<div class="col-sm-9">
@@ -155,6 +133,8 @@
 
 	<script th:inline="javascript">
 /*<![CDATA[*/
+    var baseIp = "192.168.1.58";
+
     var userData = /*[[${data.user}]]*/ 'smile.png';
     var dirLocation;
     
@@ -165,14 +145,14 @@
 /*]]>*/
  
 $("#userProfilePreview").css({
-			"background-image": "url(http://localhost/images/"+userData.userName+"/profile/"+userData.hashedUserImage+")" 
+			"background-image": "url(http://"+baseIp+"/images/"+userData.userName+"/profile/"+userData.hashedUserImage+")" 
 });
 
 $(document).ready(function(){
 
 	$("#cancelPicChange").on("click", function(){
 		$("#userProfilePreview").css({
-			"background-image": "url(http://localhost/images/"+userData.userName+"/profile/"+userData.hashedUserImage+")"
+			"background-image": "url(http://"+baseIp+"/images/"+userData.userName+"/profile/"+userData.hashedUserImage+")"
 		});
 		$(".profile-pic-add-remove-btn").hide();
 	});

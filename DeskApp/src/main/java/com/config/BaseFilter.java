@@ -64,6 +64,7 @@ public class BaseFilter implements Filter {
 			String name = params.nextElement();
 			String value = request.getParameter(name);
 			this.context.log(request.getRemoteAddr() + "::Request Params::{" + name + "=" + value + "}");
+			
 		}
 
 		try {

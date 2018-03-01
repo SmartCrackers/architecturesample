@@ -31,6 +31,9 @@ public class WebController {
 	@RequestMapping(value = { "/profile/{userName}" }, method = RequestMethod.GET)
 	public ModelAndView formLogin(@PathVariable("userName") String userName,
 			HttpServletRequest request) throws IOException {
+		
+		System.out.println("HostName: "+request.getRemoteAddr());
+		
 		Map<String, Object> data = new HashMap<String, Object>(); 
 		data.put("user", webService.getUserByUserName(userName));
 		
