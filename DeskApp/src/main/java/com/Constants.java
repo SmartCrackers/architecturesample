@@ -8,6 +8,8 @@ public class Constants {
 	
 	public static final String USER_LOGIN_API = "auth/login";
 	
+	public static final String ASYNCH_LOGGER = "asynch-delta/create/";
+	
 	public static final String USER_SAVE_API = "user/";
 	public static final String USER_UPDATE_API = "user/update";
 	public static final String USER_GET_BY_USERNAME_API = "user/%s";
